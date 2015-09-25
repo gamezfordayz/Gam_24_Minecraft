@@ -45,4 +45,11 @@ public class MapBuilder : MonoBehaviour {
 		}
 	}
 
+	public void KillWorld(){
+		GameObject[] temp = GameObject.FindGameObjectsWithTag("World");
+		for (int i = temp.Length -1; i >= 0; i--) {
+			DestroyImmediate(temp[i]);
+		}
+	}
+
 }

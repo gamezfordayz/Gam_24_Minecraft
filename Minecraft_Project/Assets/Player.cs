@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
 	public float damage = 5f;
 	float timer;
 	public Transform myCamera;
+	public float blockPlaceRange = 5f;
 	
 	public GameObject block;
 	public LayerMask blockLayer = 1;
@@ -27,7 +28,7 @@ public class Player : MonoBehaviour
 	
 	void Start ()
 	{
-		myCamera = transform.FindChild ("Camera");
+		myCamera = transform.FindChild ("Main Camera");
 	}
 	
 	void Update () 
@@ -74,7 +75,7 @@ public class Player : MonoBehaviour
 		if (Input.GetMouseButtonDown (0)) 
 		{
 			RaycastHit hit;
-			if(Physics.Raycast(myCamera.transform.position,  myCamera.forward,out hit,Mathf.Infinity, blockLayer))
+			if(Physics.Raycast(myCamera.transform.position,  myCamera.forward,out hit, blockPlaceRange))
 			{
 				if(hit.collider.gameObject.tag == "World")
 				{

@@ -14,5 +14,9 @@ public class MapBuilderEditor : Editor {
 		{
 			myScript.BuildMap();
 		}
+		if(GUILayout.Button("Destroy All Map"))
+		{
+			myScript.KillWorld();
+		}
 	}
 }
