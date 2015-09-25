@@ -14,13 +14,15 @@ public class MapBuilder : MonoBehaviour {
 	public void BuildMap()
 	{
 		if (mapList.Count > 0) {
-			StartCoroutine(DestroyMap());
+			DestroyMap();
 		} else {
 			xOrgin = Random.Range (0f, .9999f);
 			zOrgin = Random.Range (0f, .9999f);
+			float height = 0;
 			for (float i = 0; i < mapWidth; i++) {
 				for (float j = 0; j < mapLength; j++) {
-					GameObject temp = (GameObject)Instantiate (cubeFab, new Vector3 (i, GetCubeHeight (i, j, gradientValue), j), Quaternion.identity);
+					height = GetCubeHeight (i, j, gradientValue);
+					GameObject temp = (GameObject)Instantiate (cubeFab, new Vector3 (i, height, j), Quaternion.identity);
 					mapList.Add(temp);
 				}
 			}
@@ -36,21 +38,11 @@ public class MapBuilder : MonoBehaviour {
 		return height;
 	}
 
-	IEnumerator DestroyMap(){
-		while (mapList.Count > 0) {
-			int count = 0;
-			if(mapList.Count > 100){
-				 count = 100;
-			}else{
-				count = mapList.Count;
-			}
-			for ( int i = count ; i > 0; i--) {
-				Destroy(mapList[i]);
-				mapList.RemoveAt(i);
-			}
-			yield return new WaitForSeconds(2f);
+	void DestroyMap(){
+		for ( int i = mapList.Count -1 ; i >= 0; i--) {
+			DestroyImmediate(mapList[i]);
+			mapList.RemoveAt(i);
 		}
-		BuildMap();
 	}
 
 }
