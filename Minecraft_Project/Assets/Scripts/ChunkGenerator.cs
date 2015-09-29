@@ -15,10 +15,12 @@ public class ChunkGenerator : MonoBehaviour {
 	protected MeshRenderer meshRender = null;
 	protected MeshCollider meshCollider = null;
 	protected MeshFilter meshFilter = null;
-		
+
 	[Range (0, 300)]
 	public int gradientValue = 0;
 	public bool firstPass = true;
+	public bool betweemBiomes = false;
+	public bool xAxis = true;
 
 
 	// Use this for initialization
@@ -66,7 +68,7 @@ public class ChunkGenerator : MonoBehaviour {
 					if(isCubeTransparent (x + 1, y, z))				// Right Face
 						DrawFace( x,y,z, new Vector3(x + 1, y, z), Vector3.up , Vector3.forward , true, ref verts , ref tris , ref uvs, new Vector2( .5f , 0.33f )); 		
 
-					if(isCubeTransparent (x, y - 1, z))				// Bottom Face
+					if(isCubeTransparent (x, y - 1, z) && y != 0)				// Bottom Face
 						DrawFace( x,y,z, new Vector3(x, y, z), Vector3.forward , Vector3.right , false, ref verts , ref tris , ref uvs , new Vector2( .25f , 0f )); 		
 					if(isCubeTransparent (x, y + 1, z))				// Top Face
 						DrawFace( x,y,z, new Vector3(x, y + 1, z ), Vector3.forward , Vector3.right , true, ref verts , ref tris , ref uvs , new Vector2( .25f , 0.66f ));	
@@ -117,13 +119,7 @@ public class ChunkGenerator : MonoBehaviour {
 		return cubes [x, y, z];
 	}
 
-	float GetHeight(int x , int z)
-	{
-		float ceiling = 2000000;
-		float PosX = transform.position.x + ceiling;
-		float Posz = transform.position.z + ceiling;
-		return HeightGenerator.Get2DPearlinNoiseHeight (PosX + x, Posz + z, gradientValue);
-	}
+
 
 	void AssignVerts(ref List<Vector3> verts , Vector3 corner, Vector3 up, Vector3 right)
 	{
@@ -167,6 +163,34 @@ public class ChunkGenerator : MonoBehaviour {
 			tris.Add (index);
 		}
 
+	}
+
+	float GetHeight(int x , int z)
+	{
+		float ceiling = 2000000;
+		float PosX = transform.position.x + ceiling;
+		float Posz = transform.position.z + ceiling;
+		if (betweemBiomes)
+		{
+			if (xAxis)
+				gradientValue = SmoothGradiant (100 ,10 , x);//  left chunk gradiant to right chunk gradiant
+			else
+				gradientValue = SmoothGradiant (10 , 100 , z ); // from bottom chunk gradiant to top chunk gradiant
+		}
+		return HeightGenerator.Get2DPearlinNoiseHeight (PosX + x, Posz + z, gradientValue);
+	}
+
+	int SmoothGradiant(int current, int target , int index)
+	{
+		index += 1;
+		float gradiant = (float)Mathf.Abs (current - target);
+		gradiant /= 20f;
+		gradiant *= index;
+		if (current < target)
+			gradiant += current;
+		else
+			gradiant = current - gradiant;
+		return (int)Mathf.Round (gradiant);
 	}
 
 	void InitializeVariables ()

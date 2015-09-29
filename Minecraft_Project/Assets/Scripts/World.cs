@@ -20,7 +20,8 @@ public class World : MonoBehaviour
 		offsetValueZ = Random.Range(1 , 10000);
 
 	}
-	
+
+	// 564264800 seed is cool
 	// Update is called once per frame
 	void Update () 
 	{
