@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
 	float verticalRotation = 1.0f;
 	public float upDownRange = 60.0f;
 	
-	public bool grounded = true; 
+	public bool grounded = true;
 	public float speed = 1.0f; 
 	public float jumpForce = 300f;
 	public float sprintSpeed = 10.0f;
@@ -66,12 +66,16 @@ public class Player : MonoBehaviour
 		}
 		if (Input.GetKeyDown (KeyCode.Space) && grounded) 
 		{
-			if(gameObject.GetComponent<Rigidbody> ().velocity.y < 300f)	
+			if(gameObject.GetComponent<Rigidbody> ().velocity.y < 5f)	
 				gameObject.GetComponent<Rigidbody> ().AddForce (Vector3.up * jumpForce);
 			grounded = false;
 
 
 		}
+//		if (gameObject.GetComponent<Rigidbody> ().velocity.y > 0 && startedJumping) {
+//			startedJumping = false;
+//			grounded = false;
+//		}
 		if (Input.GetMouseButtonDown (0)) 
 		{
 			RaycastHit hit;
@@ -86,7 +90,7 @@ public class Player : MonoBehaviour
 		}
 
 	}
-	void OnCollisionEnter (Collision other)
+	void OnCollisionStay (Collision other)
 	{
 		if(other.gameObject.tag == "World")
 		{
