@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
 	public float upDownRange = 60.0f;
 	
 	public bool grounded = true;
-	public float speed = 1.0f; 
+	public float speed = 5.0f; 
 	public float jumpForce = 300f;
 	public float sprintSpeed = 10.0f;
 	

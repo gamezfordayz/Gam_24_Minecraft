@@ -5,6 +5,7 @@ using System.Collections.Generic;
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(MeshCollider))]
+[RequireComponent(typeof(ChunkProperties))]
 
 public class ChunkGenerator : MonoBehaviour {
 	World world = null;
@@ -16,19 +17,22 @@ public class ChunkGenerator : MonoBehaviour {
 	protected MeshCollider meshCollider = null;
 	protected MeshFilter meshFilter = null;
 
-	[Range (0, 300)]
-	public int gradientValue = 0;
+	protected ChunkProperties chunkProp = null;
+	
 	public bool firstPass = true;
-	public bool betweemBiomes = false;
-	public bool xAxis = true;
-
+	
 
 	// Use this for initialization
 	void Start () {
 		InitializeVariables ();
+		if (chunkProp.betweemBiomes != true) {
+			CreateChunk();
+		}
+	}
+
+	public void CreateChunk(){
 		InitializeChunk ();
 		CreateVisualMesh ();
-
 	}
 
 	public void InitializeChunk()
@@ -38,7 +42,7 @@ public class ChunkGenerator : MonoBehaviour {
 			for (int z = 0; z < world.chunkLength; z++) 
 			{
 				float tempHeight = GetHeight(x , z);
-				for(int y = -40; y < tempHeight; y++ )
+				for(int y = -world.groundOffset; y < tempHeight; y++ )
 				{
 					cubes[x,y+40,z] = 1;
 				}
@@ -68,7 +72,7 @@ public class ChunkGenerator : MonoBehaviour {
 					if(isCubeTransparent (x + 1, y, z))				// Right Face
 						DrawFace( x,y,z, new Vector3(x + 1, y, z), Vector3.up , Vector3.forward , true, ref verts , ref tris , ref uvs, new Vector2( .5f , 0.33f )); 		
 
-					if(isCubeTransparent (x, y - 1, z) && y != 0)				// Bottom Face
+					if(isCubeTransparent (x, y - 1, z) && y != 0)	// Bottom Face
 						DrawFace( x,y,z, new Vector3(x, y, z), Vector3.forward , Vector3.right , false, ref verts , ref tris , ref uvs , new Vector2( .25f , 0f )); 		
 					if(isCubeTransparent (x, y + 1, z))				// Top Face
 						DrawFace( x,y,z, new Vector3(x, y + 1, z ), Vector3.forward , Vector3.right , true, ref verts , ref tris , ref uvs , new Vector2( .25f , 0.66f ));	
@@ -133,12 +137,14 @@ public class ChunkGenerator : MonoBehaviour {
 	{
 		Vector2 uvSize = new Vector2 (.25f, .33f);
 		//GRASS ONLY
-		if(!isCubeTransparent (x, y + 1, z) && firstPass)
-			uvCorner = new Vector2( .25f , 0f );		
-		uvs.Add (uvCorner);
-		uvs.Add (new Vector2 (uvCorner.x, uvCorner.y + uvSize.y));
-		uvs.Add (new Vector2 (uvCorner.x + uvSize.x, uvCorner.y + uvSize.y));
-		uvs.Add (new Vector2 (uvCorner.x + uvSize.x, uvCorner.y));
+		if (cubes [x, y, z] == 1) {
+			if (!isCubeTransparent (x, y + 1, z) && firstPass)
+				uvCorner = new Vector2 (.25f, 0f);		
+			uvs.Add (uvCorner);
+			uvs.Add (new Vector2 (uvCorner.x, uvCorner.y + uvSize.y));
+			uvs.Add (new Vector2 (uvCorner.x + uvSize.x, uvCorner.y + uvSize.y));
+			uvs.Add (new Vector2 (uvCorner.x + uvSize.x, uvCorner.y));
+		}
 	}
 
 	void AssignTris (ref List<int> tris, int index , bool reversed){
@@ -170,14 +176,18 @@ public class ChunkGenerator : MonoBehaviour {
 		float ceiling = 2000000;
 		float PosX = transform.position.x + ceiling;
 		float Posz = transform.position.z + ceiling;
-		if (betweemBiomes)
+		if (chunkProp.betweemBiomes)
 		{
-			if (xAxis)
-				gradientValue = SmoothGradiant (100 ,10 , x);//  left chunk gradiant to right chunk gradiant
-			else
-				gradientValue = SmoothGradiant (10 , 100 , z ); // from bottom chunk gradiant to top chunk gradiant
+			if(chunkProp.corner != true)
+			{
+				if (chunkProp.xAxis)
+					chunkProp.gradiantValue = SmoothGradiant (chunkProp.lowerGradiant , chunkProp.upperGradiant , x);//  left chunk gradiant to right chunk gradiant
+				else
+					chunkProp.gradiantValue = SmoothGradiant (chunkProp.lowerGradiant , chunkProp.upperGradiant , z ); // from bottom chunk gradiant to top chunk gradiant
+			}
+			else chunkProp.gradiantValue = SmoothGradiantCorner(chunkProp.lowerGradiant , chunkProp.upperGradiant , x, z) ;
 		}
-		return HeightGenerator.Get2DPearlinNoiseHeight (PosX + x, Posz + z, gradientValue);
+		return HeightGenerator.Get2DPearlinNoiseHeight (PosX + x, Posz + z, chunkProp.gradiantValue);
 	}
 
 	int SmoothGradiant(int current, int target , int index)
@@ -193,6 +203,21 @@ public class ChunkGenerator : MonoBehaviour {
 		return (int)Mathf.Round (gradiant);
 	}
 
+	int SmoothGradiantCorner(int lower, int upper , int x, int z)
+	{
+		if (!chunkProp.left)
+
+			x = world.chunkLength - x;
+		if (chunkProp.lower)
+		{
+			z = world.chunkLength - z;
+			return (SmoothGradiant(SmoothGradiant(lower , upper , x) , lower , z));//
+		}
+		if (z < world.chunkLength/2 )
+			return (SmoothGradiant(SmoothGradiant(lower , upper , z) , upper , x));
+		else return (SmoothGradiant(SmoothGradiant(lower , upper , x) , upper , z));		
+	}
+
 	void InitializeVariables ()
 	{
 		world = World.currentWorld;
@@ -201,7 +226,9 @@ public class ChunkGenerator : MonoBehaviour {
 		meshRender = GetComponent<MeshRenderer> ();
 		meshCollider = GetComponent<MeshCollider> ();
 		meshFilter = GetComponent<MeshFilter> ();
+
+		chunkProp = GetComponent<ChunkProperties> ();
 	}
 
-	
+
 }
