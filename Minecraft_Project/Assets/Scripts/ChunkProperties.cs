@@ -3,12 +3,14 @@ using System.Collections;
 
 public class ChunkProperties : MonoBehaviour {
 
-	[Range (0, 300)]
+	[Range (0, 200)]
 	public int gradiantValue = 0;
+	public int stoneHeightMin = 12;
+	public int stoneHeightMax = 15;
 	public bool betweemBiomes = false;
 	public bool xAxis = true;
 	public bool corner = false;
-	public bool left = true;
+	public bool reversed = true;
 	public bool lower = false;
 	public int boimeType = 0;
 
@@ -33,22 +35,22 @@ public class ChunkProperties : MonoBehaviour {
 
 	void FindNeighborChunk()
 	{
-		foreach (GameObject temp in World.currentWorld.TEMP)
+		foreach (Transform temp in World.currentWorld.chunks)
 		{
 			if(corner != true)
 			{
 				if(xAxis)
 				{
-					if(temp.transform.position == new Vector3 (transform.position.x - World.currentWorld.chunkLength , transform.position.y, transform.position.z))
+					if(temp.position == new Vector3 (transform.position.x - World.currentWorld.chunkLength , transform.position.y, transform.position.z))
 						lowerGradiant = temp.GetComponent<ChunkProperties>().gradiantValue;
-					if(temp.transform.position == new Vector3 (transform.position.x + World.currentWorld.chunkLength , transform.position.y, transform.position.z))
+					if(temp.position == new Vector3 (transform.position.x + World.currentWorld.chunkLength , transform.position.y, transform.position.z))
 						upperGradiant = temp.GetComponent<ChunkProperties>().gradiantValue;
 				}
 				else
 				{
-					if(temp.transform.position == new Vector3 (transform.position.x , transform.position.y, transform.position.z - World.currentWorld.chunkLength ))
+					if(temp.position == new Vector3 (transform.position.x , transform.position.y, transform.position.z - World.currentWorld.chunkLength ))
 						lowerGradiant = temp.GetComponent<ChunkProperties>().gradiantValue;
-					if(temp.transform.position == new Vector3 (transform.position.x , transform.position.y, transform.position.z + World.currentWorld.chunkLength ))
+					if(temp.position == new Vector3 (transform.position.x , transform.position.y, transform.position.z + World.currentWorld.chunkLength ))
 						upperGradiant = temp.GetComponent<ChunkProperties>().gradiantValue;
 				}
 			}
@@ -58,19 +60,19 @@ public class ChunkProperties : MonoBehaviour {
 				//right, topleft: lower = +x -z ,upper = -x + z
 
 				int first =  World.currentWorld.chunkLength , second = World.currentWorld.chunkLength ;
-				if(left)
+				if(reversed)
 				{
 					first *= -1;	second = first;
 				}
 				else
 					second *= -1;
 
-				if(temp.transform.position == new Vector3 (transform.position.x + first, transform.position.y, transform.position.z + second  ))
+				if(temp.position == new Vector3 (transform.position.x + first, transform.position.y, transform.position.z + second  ))
 					lowerGradiant = temp.GetComponent<ChunkProperties>().gradiantValue;
 				first =  World.currentWorld.chunkLength; second = World.currentWorld.chunkLength ;
-				if(left != true)
+				if(reversed != true)
 					first *= -1;
-				if(temp.transform.position == new Vector3 (transform.position.x + first , transform.position.y, transform.position.z + second))
+				if(temp.position == new Vector3 (transform.position.x + first , transform.position.y, transform.position.z + second))
 					upperGradiant = temp.GetComponent<ChunkProperties>().gradiantValue;				
 			}
 		}

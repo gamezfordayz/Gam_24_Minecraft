@@ -12,15 +12,16 @@ public class ChunkGenerator : MonoBehaviour {
 
 	public byte [,,] cubes;
 
+
 	protected Mesh visualMesh = null;
 	protected MeshRenderer meshRender = null;
 	protected MeshCollider meshCollider = null;
 	protected MeshFilter meshFilter = null;
 
 	protected ChunkProperties chunkProp = null;
-	
-	public bool firstPass = true;
-	
+	CubeProperties cubeType;
+
+
 
 	// Use this for initialization
 	void Start () {
@@ -41,10 +42,17 @@ public class ChunkGenerator : MonoBehaviour {
 		{
 			for (int z = 0; z < world.chunkLength; z++) 
 			{
-				float tempHeight = GetHeight(x , z);
-				for(int y = -world.groundOffset; y < tempHeight; y++ )
+				float tempHeight = GetHeight(x , z) + world.groundOffset;
+				int min = (int)tempHeight - Random.Range(chunkProp.stoneHeightMin,chunkProp.stoneHeightMax+1);
+				for(int y = 0; y < tempHeight; y++ )
 				{
-					cubes[x,y+40,z] = 1;
+					if(y < min )
+						cubes[x,y,z] = (int)CubeProperties.cubeIndexes.stone;
+					else 
+						if(y == tempHeight -1 )
+							cubes[x,y,z] = (int)CubeProperties.cubeIndexes.grass;
+						else
+						cubes[x,y,z] = 0;//(int)CubeProperties.cubeIndexes.dirt;
 				}
 			}
 		}
@@ -58,6 +66,10 @@ public class ChunkGenerator : MonoBehaviour {
 		List<int> tris = new List<int> ();
 		List<Vector2> uvs = new List<Vector2> ();
 
+		const int TOP = 0;
+		const int SIDE = 1;
+		const int BOTTOM = 2;
+
 		for (int x = 0; x < world.chunkLength; x++) 
 		{
 			for (int z = 0; z < world.chunkLength; z++) 
@@ -68,19 +80,19 @@ public class ChunkGenerator : MonoBehaviour {
 
 						// Check if there is a "cube" next to it and if there isnt then draw this one
 					if(isCubeTransparent (x - 1 , y, z))			// Left Face
-						DrawFace( x,y,z, new Vector3(x, y, z), Vector3.up , Vector3.forward , false, ref verts , ref tris , ref uvs , new Vector2( 0f , 0.33f )); 			
+						DrawFace( x,y,z, new Vector3(x, y, z), Vector3.up , Vector3.forward , false, ref verts , ref tris , ref uvs, SIDE); 			
 					if(isCubeTransparent (x + 1, y, z))				// Right Face
-						DrawFace( x,y,z, new Vector3(x + 1, y, z), Vector3.up , Vector3.forward , true, ref verts , ref tris , ref uvs, new Vector2( .5f , 0.33f )); 		
+						DrawFace( x,y,z, new Vector3(x + 1, y, z), Vector3.up , Vector3.forward , true, ref verts , ref tris , ref uvs , SIDE); 		
 
 					if(isCubeTransparent (x, y - 1, z) && y != 0)	// Bottom Face
-						DrawFace( x,y,z, new Vector3(x, y, z), Vector3.forward , Vector3.right , false, ref verts , ref tris , ref uvs , new Vector2( .25f , 0f )); 		
+						DrawFace( x,y,z, new Vector3(x, y, z), Vector3.forward , Vector3.right , false, ref verts , ref tris , ref uvs, BOTTOM); 		
 					if(isCubeTransparent (x, y + 1, z))				// Top Face
-						DrawFace( x,y,z, new Vector3(x, y + 1, z ), Vector3.forward , Vector3.right , true, ref verts , ref tris , ref uvs , new Vector2( .25f , 0.66f ));	
+						DrawFace( x,y,z, new Vector3(x, y + 1, z ), Vector3.forward , Vector3.right , true, ref verts , ref tris , ref uvs, TOP );	
 
 					if(isCubeTransparent (x, y, z - 1))				// Back Face
-						DrawFace( x,y,z, new Vector3(x, y, z), Vector3.up , Vector3.right , true, ref verts , ref tris , ref uvs , new Vector2( .75f , 0.33f ));				
+						DrawFace( x,y,z, new Vector3(x, y, z), Vector3.up , Vector3.right , true, ref verts , ref tris , ref uvs, SIDE);				
 					if(isCubeTransparent (x, y, z + 1))				// Forward Face
-						DrawFace( x,y,z, new Vector3(x, y , z + 1), Vector3.up , Vector3.right , false, ref verts , ref tris , ref uvs , new Vector2( .25f , 0.33f ));		
+						DrawFace( x,y,z, new Vector3(x, y , z + 1), Vector3.up , Vector3.right , false, ref verts , ref tris , ref uvs, SIDE);		
 				}
 			}
 		}
@@ -92,15 +104,14 @@ public class ChunkGenerator : MonoBehaviour {
 		visualMesh.RecalculateNormals ();
 		meshFilter.mesh = visualMesh;
 		meshCollider.sharedMesh = visualMesh;
-		firstPass = false;
 	}
 
 	public void DrawFace(int x, int y ,int z, Vector3 corner, Vector3 up, Vector3 right, bool reversed,
-	                     ref List<Vector3> verts, ref List<int> tris, ref List<Vector2> uvs , Vector2 uvCorner )
+	                     ref List<Vector3> verts, ref List<int> tris, ref List<Vector2> uvs , int uvIndex )
 	{
 		int index = verts.Count;
 		AssignVerts(ref verts , corner , up , right);
-		AssignUvs (ref uvs, uvCorner, x, y, z);
+		AssignUvs (ref uvs, x, y, z , uvIndex);
 		AssignTris (ref tris, index , reversed);
 
 	}
@@ -108,12 +119,9 @@ public class ChunkGenerator : MonoBehaviour {
 	public bool isCubeTransparent(int x , int y, int z)
 	{
 		byte cube = GetCube (x, y, z);
-		switch (cube)
-		{
-		default:
-		case 0: return true;
-		case 1: return false;
-		}
+		if (cube == 0)
+			return true;
+		return false;
 	}
 
 	public byte GetCube(int x, int y, int z)
@@ -124,7 +132,6 @@ public class ChunkGenerator : MonoBehaviour {
 	}
 
 
-
 	void AssignVerts(ref List<Vector3> verts , Vector3 corner, Vector3 up, Vector3 right)
 	{
 		verts.Add (corner);
@@ -133,15 +140,15 @@ public class ChunkGenerator : MonoBehaviour {
 		verts.Add (corner + right);
 	}
 
-	void AssignUvs( ref List<Vector2> uvs , Vector2 uvCorner , int x, int y, int z)
+	void AssignUvs( ref List<Vector2> uvs, int x, int y, int z , int uvIndex)
 	{
-		Vector2 uvSize = new Vector2 (.25f, .33f);
-		//GRASS ONLY
-		if (cubes [x, y, z] == 1) {
-			if (!isCubeTransparent (x, y + 1, z) && firstPass)
-				uvCorner = new Vector2 (.25f, 0f);		
+
+		Vector2 uvSize = cubeType.uvSize;
+		if (cubes [x, y, z] != 0) 
+		{
+			Vector2 uvCorner = Vector2.Scale(cubeType.cubeDict[(CubeProperties.cubeIndexes)cubes [x, y, z]].uvIndexes[uvIndex] , uvSize);
 			uvs.Add (uvCorner);
-			uvs.Add (new Vector2 (uvCorner.x, uvCorner.y + uvSize.y));
+			uvs.Add (new Vector2 (uvCorner.x, uvCorner.y + uvSize.y));				
 			uvs.Add (new Vector2 (uvCorner.x + uvSize.x, uvCorner.y + uvSize.y));
 			uvs.Add (new Vector2 (uvCorner.x + uvSize.x, uvCorner.y));
 		}
@@ -205,13 +212,12 @@ public class ChunkGenerator : MonoBehaviour {
 
 	int SmoothGradiantCorner(int lower, int upper , int x, int z)
 	{
-		if (!chunkProp.left)
-
+		if (!chunkProp.reversed)
 			x = world.chunkLength - x;
 		if (chunkProp.lower)
 		{
 			z = world.chunkLength - z;
-			return (SmoothGradiant(SmoothGradiant(lower , upper , x) , lower , z));//
+			return (SmoothGradiant(SmoothGradiant(lower , upper , x) , lower , z));
 		}
 		if (z < world.chunkLength/2 )
 			return (SmoothGradiant(SmoothGradiant(lower , upper , z) , upper , x));
@@ -228,6 +234,7 @@ public class ChunkGenerator : MonoBehaviour {
 		meshFilter = GetComponent<MeshFilter> ();
 
 		chunkProp = GetComponent<ChunkProperties> ();
+		cubeType = CubeProperties.cubeType;
 	}
 
 

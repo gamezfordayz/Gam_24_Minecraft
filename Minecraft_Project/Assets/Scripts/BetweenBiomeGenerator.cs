@@ -45,9 +45,9 @@ public class BetweenBiomeGenerator : MonoBehaviour {
 				{
 					GameObject temp = (GameObject)Instantiate(chunkFab , new Vector3(x * 20f, 0 , z * 20f) , Quaternion.identity);
 					if(x == 2 && z == 2 || x == 7 && z == 7)
-						temp.GetComponent<ChunkProperties>().left = true;
+						temp.GetComponent<ChunkProperties>().reversed = true;
 					else
-						temp.GetComponent<ChunkProperties>().left = false;
+						temp.GetComponent<ChunkProperties>().reversed = false;
 					if(z == 2)
 						temp.GetComponent<ChunkProperties>().lower = true;
 					temp.GetComponent<ChunkProperties>().corner = true;
