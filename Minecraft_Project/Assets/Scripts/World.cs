@@ -71,12 +71,11 @@ public class World : MonoBehaviour
 			for (int z = Mathf.RoundToInt(player.transform.position.z - instantiateDistance); z <= Mathf.RoundToInt(player.transform.position.z + instantiateDistance); z += chunkLength) 
 			{
 				Vector3 tempPos = new Vector3( (float)x, 0f, (float)z);
-				tempPos.x = Mathf.RoundToInt(tempPos.x / (float)chunkLength) * chunkLength;
-				tempPos.z = Mathf.RoundToInt(tempPos.z / (float)chunkLength) * chunkLength;
+				tempPos.x = Mathf.FloorToInt(tempPos.x / (float)chunkLength) * chunkLength;
+				tempPos.z = Mathf.FloorToInt(tempPos.z / (float)chunkLength) * chunkLength;
 
 				if(!FindChunk(tempPos))
 				{
-					Debug.Log (tempPos);
 					objectsToSpawn.Enqueue(tempPos);
 				}
 			}
