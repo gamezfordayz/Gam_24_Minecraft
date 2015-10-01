@@ -52,7 +52,7 @@ public class ChunkGenerator : MonoBehaviour {
 						if(y == tempHeight -1 )
 							cubes[x,y,z] = (int)CubeProperties.cubeIndexes.grass;
 						else
-						cubes[x,y,z] = 0;//(int)CubeProperties.cubeIndexes.dirt;
+						cubes[x,y,z] = (int)CubeProperties.cubeIndexes.dirt;
 				}
 			}
 		}
