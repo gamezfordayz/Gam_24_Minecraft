@@ -182,7 +182,7 @@ public class ChunkGenerator : MonoBehaviour {
 		CreateVisualMesh ();
 	}
 
-	Vector3 GetChunkCoords(Vector2 dir)
+	public Vector3 GetChunkCoords(Vector2 dir)
 	{
 		return new Vector3(transform.position.x + dir.x*(world.chunkLength) , transform.position.y ,transform.position.z + dir.y*(world.chunkLength) );
 	}
@@ -265,18 +265,22 @@ public class ChunkGenerator : MonoBehaviour {
 		return (int)Mathf.Round (gradiant);
 	}
 
-	int SmoothGradiantCorner(int lower, int upper , int x, int z)
+	int SmoothGradiantCorner(int bL , int bR, int tL, int tR , int x, int z)
 	{
-		if (!chunkProp.reversed)
-			x = world.chunkLength - x;
-		if (chunkProp.lower)
-		{
-			z = world.chunkLength - z;
-			return (SmoothGradiant(SmoothGradiant(lower , upper , x) , lower , z));
-		}
-		if (z < world.chunkLength/2 )
-			return (SmoothGradiant(SmoothGradiant(lower , upper , z) , upper , x));
-		else return (SmoothGradiant(SmoothGradiant(lower , upper , x) , upper , z));		
+		int avgGradiant = (bL + bR + tL + tR) / 4;
+		//return (SmoothGradiant(SmoothGradiant(lower , upper , SmoothGradiant(lower , upper , x)) , avgGradiant , z));
+		// change avg gradient to other based on wether bottom right bottome left or uper... so it starts at lower then goes avg or starts at upper and goes avg 
+
+
+//		if (z < world.chunkLength / 2)
+//		{	//return (SmoothGradiant(SmoothGradiant(lower , upper , x) , lower , z));
+//			if (x < world.chunkLength / 2)
+//				return SmoothGradiant(SmoothGradiant());
+//			else
+//				return SmoothGradiant();
+//		}
+//		else
+//			return ;//(SmoothGradiant(SmoothGradiant( ,  , x) , upper , z));	
 	}
 
 	void InitializeVariables ()

@@ -33,7 +33,6 @@ public class World : MonoBehaviour
 
 	void Start()
 	{
-
 		StartCoroutine (CheckForSpawn());
 		StartCoroutine (SpawnChunk());
 	}
