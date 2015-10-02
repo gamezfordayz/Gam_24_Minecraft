@@ -115,7 +115,7 @@ public class World : MonoBehaviour
 		}
 	}
 
-	int FindChunk(Vector3 pos)
+	public int FindChunk(Vector3 pos)
 	{
 		for (int i = 0; i < chunks.Count; i++) 
 		{

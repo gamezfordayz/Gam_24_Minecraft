@@ -97,7 +97,7 @@ public class Player : MonoBehaviour
 				if(hit.collider.gameObject.tag == "World")
 				{
 					int x,y,z;
-					hit.point =- hit.normal/2;
+					hit.point -= hit.normal/2;
 					x = Mathf.FloorToInt(hit.point.x - hit.transform.position.x);
 					y = Mathf.FloorToInt(hit.point.y - hit.transform.position.y);
 					z = Mathf.FloorToInt(hit.point.z - hit.transform.position.z);

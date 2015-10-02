@@ -134,18 +134,59 @@ public class ChunkGenerator : MonoBehaviour {
 
 	public byte GetTheoreticalCube(int x , int y , int z)
 	{
-		byte cube = 1;
-		if (y >= (GetHeight (x, z) + world.groundOffset)) 
-			cube = 0;
-		return cube;
+		int index = -1;
+		if(x >= world.chunkLength)
+			index = world.FindChunk(GetChunkCoords(new Vector2(1,0)));
+		if(z >= world.chunkLength)
+			index = world.FindChunk(GetChunkCoords(new Vector2(0,1)));
+		if(x < 0)
+			index = world.FindChunk(GetChunkCoords(new Vector2(-1,0)));
+		if(z < 0)
+			index = world.FindChunk(GetChunkCoords(new Vector2(0,-1)));
+		
+		if(index == -1)
+		{
+			if (y >= (GetHeight (x, z) + world.groundOffset)) 
+				return 0;
+			else
+				return 1;
+		}
+		if (x >= world.chunkLength)
+			x -= world.chunkLength;
+		if (x < 0)
+			x += world.chunkLength;
+		if (z >= world.chunkLength)
+			z -= world.chunkLength;
+		if (z < 0)
+			z += world.chunkLength;
+		return world.chunks [index].GetComponent<ChunkGenerator> ().GetCube (x , y , z);
+
+
 	}
 
 	public void DestroyCube(int x, int y , int z)
 	{
 		cubes [x, y, z] = 0;
+		if (x == 0 || z == 0 || z == world.chunkLength - 1 || x == world.chunkLength -1 )
+		{
+			if(x == 0 )
+				world.chunks[world.FindChunk(GetChunkCoords(new Vector2(-1,0)))].GetComponent<ChunkGenerator>().CreateVisualMesh();
+			if(z == 0 )
+				world.chunks[world.FindChunk(GetChunkCoords(new Vector2(0,-1)))].GetComponent<ChunkGenerator>().CreateVisualMesh();
+			if(x == world.chunkLength -1 )
+				world.chunks[world.FindChunk(GetChunkCoords(new Vector2(1,0)))].GetComponent<ChunkGenerator>().CreateVisualMesh();
+			if(z == world.chunkLength -1 )
+				world.chunks[world.FindChunk(GetChunkCoords(new Vector2(0,1)))].GetComponent<ChunkGenerator>().CreateVisualMesh();
+
+		}
 		CreateVisualMesh ();
 	}
 
+	Vector3 GetChunkCoords(Vector2 dir)
+	{
+		return new Vector3(transform.position.x + dir.x*(world.chunkLength) , transform.position.y ,transform.position.z + dir.y*(world.chunkLength) );
+	}
+	
 	void AssignVerts(ref List<Vector3> verts , Vector3 corner, Vector3 up, Vector3 right)
 	{
 		verts.Add (corner);
