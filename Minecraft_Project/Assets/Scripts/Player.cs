@@ -19,8 +19,8 @@ public class Player : MonoBehaviour
 	float timer;
 	public Transform myCamera;
 	public float blockPlaceRange = 5f;
-	
-	public GameObject block;
+	public float blockDestroyRange = 3f;
+
 	public LayerMask blockLayer = 1;
 
 	
@@ -76,14 +76,32 @@ public class Player : MonoBehaviour
 //			startedJumping = false;
 //			grounded = false;
 //		}
-		if (Input.GetMouseButtonDown (0)) 
+		if (Input.GetMouseButtonDown (1)) 
 		{
 			RaycastHit hit;
 			if(Physics.Raycast(myCamera.transform.position,  myCamera.forward,out hit, blockPlaceRange))
 			{
 				if(hit.collider.gameObject.tag == "World")
 				{
-					Instantiate( block, hit.collider.gameObject.transform.position + hit.normal, hit.transform.rotation );
+					Debug.Log("Build at : " + (hit.point - hit.transform.position));
+					//Instantiate( block, hit.collider.gameObject.transform.position + hit.normal, hit.transform.rotation );
+				}
+			}
+			
+		}
+		if (Input.GetMouseButtonDown (0)) 
+		{
+			RaycastHit hit;
+			if(Physics.Raycast(myCamera.transform.position,  myCamera.forward,out hit, blockDestroyRange))
+			{
+				if(hit.collider.gameObject.tag == "World")
+				{
+					int x,y,z;
+					hit.point =- hit.normal/2;
+					x = Mathf.FloorToInt(hit.point.x - hit.transform.position.x);
+					y = Mathf.FloorToInt(hit.point.y - hit.transform.position.y);
+					z = Mathf.FloorToInt(hit.point.z - hit.transform.position.z);
+					hit.collider.gameObject.GetComponent<ChunkGenerator>().DestroyCube(x,y,z);
 				}
 			}
 			

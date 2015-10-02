@@ -79,19 +79,19 @@ public class ChunkGenerator : MonoBehaviour {
 					if(cubes[x, y , z] == 0) continue;
 
 						// Check if there is a "cube" next to it and if there isnt then draw this one
-					if(isCubeTransparent (x - 1 , y, z))			// Left Face
+					if(IsCubeTransparent (x - 1 , y, z))			// Left Face
 						DrawFace( x,y,z, new Vector3(x, y, z), Vector3.up , Vector3.forward , false, ref verts , ref tris , ref uvs, SIDE); 			
-					if(isCubeTransparent (x + 1, y, z))				// Right Face
+					if(IsCubeTransparent (x + 1, y, z))				// Right Face
 						DrawFace( x,y,z, new Vector3(x + 1, y, z), Vector3.up , Vector3.forward , true, ref verts , ref tris , ref uvs , SIDE); 		
 
-					if(isCubeTransparent (x, y - 1, z) && y != 0)	// Bottom Face
+					if(IsCubeTransparent (x, y - 1, z) && y != 0)	// Bottom Face
 						DrawFace( x,y,z, new Vector3(x, y, z), Vector3.forward , Vector3.right , false, ref verts , ref tris , ref uvs, BOTTOM); 		
-					if(isCubeTransparent (x, y + 1, z))				// Top Face
+					if(IsCubeTransparent (x, y + 1, z))				// Top Face
 						DrawFace( x,y,z, new Vector3(x, y + 1, z ), Vector3.forward , Vector3.right , true, ref verts , ref tris , ref uvs, TOP );	
 
-					if(isCubeTransparent (x, y, z - 1))				// Back Face
+					if(IsCubeTransparent (x, y, z - 1))				// Back Face
 						DrawFace( x,y,z, new Vector3(x, y, z), Vector3.up , Vector3.right , true, ref verts , ref tris , ref uvs, SIDE);				
-					if(isCubeTransparent (x, y, z + 1))				// Forward Face
+					if(IsCubeTransparent (x, y, z + 1))				// Forward Face
 						DrawFace( x,y,z, new Vector3(x, y , z + 1), Vector3.up , Vector3.right , false, ref verts , ref tris , ref uvs, SIDE);		
 				}
 			}
@@ -106,6 +106,14 @@ public class ChunkGenerator : MonoBehaviour {
 		meshCollider.sharedMesh = visualMesh;
 	}
 
+	public bool IsCubeTransparent(int x , int y, int z)
+	{
+		byte cube = GetCube (x, y, z);
+		if (cube == 0)
+			return true;
+		return false;
+	}
+
 	public void DrawFace(int x, int y ,int z, Vector3 corner, Vector3 up, Vector3 right, bool reversed,
 	                     ref List<Vector3> verts, ref List<int> tris, ref List<Vector2> uvs , int uvIndex )
 	{
@@ -116,21 +124,27 @@ public class ChunkGenerator : MonoBehaviour {
 
 	}
 
-	public bool isCubeTransparent(int x , int y, int z)
-	{
-		byte cube = GetCube (x, y, z);
-		if (cube == 0)
-			return true;
-		return false;
-	}
 
 	public byte GetCube(int x, int y, int z)
 	{
 		if ((x < 0) || (y < 0) || (z < 0) || (x >= world.chunkLength) || (y >= world.chunkHeight) || (z >= world.chunkLength))
-			return 0;
+			return GetTheoreticalCube(x, y, z);
 		return cubes [x, y, z];
 	}
 
+	public byte GetTheoreticalCube(int x , int y , int z)
+	{
+		byte cube = 1;
+		if (y >= (GetHeight (x, z) + world.groundOffset)) 
+			cube = 0;
+		return cube;
+	}
+
+	public void DestroyCube(int x, int y , int z)
+	{
+		cubes [x, y, z] = 0;
+		CreateVisualMesh ();
+	}
 
 	void AssignVerts(ref List<Vector3> verts , Vector3 corner, Vector3 up, Vector3 right)
 	{
@@ -237,5 +251,5 @@ public class ChunkGenerator : MonoBehaviour {
 		cubeType = CubeProperties.cubeType;
 	}
 
-
+	// ok if the byte im looking for is off my grid then find the byte i need by calling get virtual .. this will check the height and see if there is a cube at that pos
 }
