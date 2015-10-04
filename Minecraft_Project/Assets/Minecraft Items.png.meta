@@ -1,0 +1,772 @@
+fileFormatVersion: 2
+guid: 9de9355f51cb4fe419711f19ef74a1b9
+timeCreated: 1443927281
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Head
+    21300002: Minecraft Items_1
+    21300004: Minecraft Items_2
+    21300006: Minecraft Items_3
+    21300008: Iron Helm
+    21300010: Diamond Helm
+    21300012: Gold Helm
+    21300014: Diamond
+    21300016: Minecraft Items_8
+    21300018: Minecraft Items_9
+    21300020: Minecraft Items_10
+    21300022: Minecraft Items_11
+    21300024: Apple
+    21300026: Minecraft Items_13
+    21300028: Minecraft Items_14
+    21300030: Minecraft Items_15
+    21300032: Body
+    21300034: Minecraft Items_17
+    21300036: Minecraft Items_18
+    21300038: Iron Chest
+    21300040: Diamond Chest
+    21300042: Gold Chest
+    21300044: Minecraft Items_22
+    21300046: Iron
+    21300048: Coal
+    21300050: Minecraft Items_25
+    21300052: Minecraft Items_26
+    21300054: Minecraft Items_27
+    21300056: Minecraft Items_28
+    21300058: Zombie Skin
+    21300060: Minecraft Items_30
+    21300062: Legs
+    21300064: Minecraft Items_32
+    21300066: Minecraft Items_33
+    21300068: Minecraft Items_34
+    21300070: Iron Legs
+    21300072: Diamond Legs
+    21300074: Gold Legs
+    21300076: Minecraft Items_38
+    21300078: Gold
+    21300080: Minecraft Items_40
+    21300082: Minecraft Items_41
+    21300084: Minecraft Items_42
+    21300086: Minecraft Items_43
+    21300088: Minecraft Items_44
+    21300090: Minecraft Items_45
+    21300092: Minecraft Items_46
+    21300094: Feet
+    21300096: Minecraft Items_48
+    21300098: Minecraft Items_49
+    21300100: Minecraft Items_50
+    21300102: Iron Boots
+    21300104: Diamond Boots
+    21300106: Gold Boots
+    21300108: Minecraft Items_54
+    21300110: Minecraft Items_55
+    21300112: Minecraft Items_56
+    21300114: Minecraft Items_57
+    21300116: Minecraft Items_58
+    21300118: Minecraft Items_59
+    21300120: Minecraft Items_60
+    21300122: Minecraft Items_61
+    21300124: Minecraft Items_62
+    21300126: Minecraft Items_63
+    21300128: Minecraft Items_64
+    21300130: Wood Sword
+    21300132: Stone Sword
+    21300134: Iron Sword
+    21300136: Diamond Sword
+    21300138: Gold Sword
+    21300140: Minecraft Items_70
+    21300142: Minecraft Items_71
+    21300144: Minecraft Items_72
+    21300146: Minecraft Items_73
+    21300148: Minecraft Items_74
+    21300150: Raw Steak
+    21300152: Raw Porkchop
+    21300154: Minecraft Items_77
+    21300156: Minecraft Items_78
+    21300158: Minecraft Items_79
+    21300160: Sticks
+    21300162: Invisable Sprite
+    21300164: Minecraft Items_82
+    21300166: Minecraft Items_83
+    21300168: Minecraft Items_84
+    21300170: Minecraft Items_85
+    21300172: Minecraft Items_86
+    21300174: Minecraft Items_87
+    21300176: Minecraft Items_88
+    21300178: Spider Eye
+    21300180: Minecraft Items_90
+    21300182: Steak
+    21300184: Porkchop
+    21300186: Minecraft Items_93
+    21300188: Minecraft Items_94
+    21300190: Minecraft Items_95
+    21300192: Minecraft Items_96
+    21300194: Wood Pickaxe
+    21300196: Stone Pickaxe
+    21300198: Iron Pickaxe
+    21300200: Diamond Pickaxe
+    21300202: Gold Pickaxe
+    21300204: Minecraft Items_102
+    21300206: Minecraft Items_103
+    21300208: Minecraft Items_104
+    21300210: String
+    21300212: Bones
+    21300214: Minecraft Items_107
+    21300216: Minecraft Items_108
+    21300218: Feather
+    21300220: Minecraft Items_110
+    21300222: Minecraft Items_111
+    21300224: Minecraft Items_112
+    21300226: Wood Axe
+    21300228: Stone Axe
+    21300230: Iron Axe
+    21300232: Diamond Axe
+    21300234: Gold Axe
+    21300236: Minecraft Items_118
+    21300238: Minecraft Items_119
+    21300240: Minecraft Items_120
+    21300242: Minecraft Items_121
+    21300244: Minecraft Items_122
+    21300246: Raw Chicken
+    21300248: Chicken
+    21300250: Leather
+    21300252: Minecraft Items_126
+    21300254: Minecraft Items_127
+    21300256: Minecraft Items_128
+    21300258: Minecraft Items_129
+    21300260: Minecraft Items_130
+    21300262: Minecraft Items_131
+    21300264: Minecraft Items_132
+    21300266: Minecraft Items_133
+    21300268: Minecraft Items_134
+    21300270: Minecraft Items_135
+    21300272: Minecraft Items_136
+    21300274: Minecraft Items_137
+    21300276: Minecraft Items_138
+    21300278: Minecraft Items_139
+    21300280: Minecraft Items_140
+    21300282: Minecraft Items_141
+    21300284: Minecraft Items_142
+    21300286: Minecraft Items_143
+    21300288: Minecraft Items_144
+    21300290: Minecraft Items_145
+    21300292: Minecraft Items_146
+    21300294: Minecraft Items_147
+    21300296: Minecraft Items_148
+    21300298: Minecraft Items_149
+    21300300: Minecraft Items_150
+    21300302: Minecraft Items_151
+    21300304: Minecraft Items_152
+    21300306: Minecraft Items_153
+    21300308: Minecraft Items_154
+    21300310: Minecraft Items_155
+    21300312: Minecraft Items_156
+    21300314: Minecraft Items_157
+    21300316: Minecraft Items_158
+    21300318: Minecraft Items_159
+    21300320: Minecraft Items_160
+    21300322: Minecraft Items_161
+    21300324: Minecraft Items_162
+    21300326: Minecraft Items_163
+    21300328: Minecraft Items_164
+    21300330: Minecraft Items_165
+    21300332: Minecraft Items_166
+    21300334: Door
+    21300336: Minecraft Items_168
+    21300338: Minecraft Items_169
+    21300340: Minecraft Items_170
+    21300342: Minecraft Items_171
+    21300344: Minecraft Items_172
+    21300346: Minecraft Items_173
+    21300348: Minecraft Items_174
+    21300350: Minecraft Items_175
+    21300352: Minecraft Items_176
+    21300354: Minecraft Items_177
+    21300356: Minecraft Items_178
+    21300358: Minecraft Items_179
+    21300360: Minecraft Items_180
+    21300362: Minecraft Items_181
+    21300364: Minecraft Items_182
+    21300366: Minecraft Items_183
+    21300368: Minecraft Items_184
+    21300370: Minecraft Items_185
+    21300372: Minecraft Items_186
+    21300374: Minecraft Items_187
+    21300376: Minecraft Items_188
+    21300378: Minecraft Items_189
+    21300380: Minecraft Items_190
+    21300382: Minecraft Items_191
+    21300384: Minecraft Items_192
+    21300386: Minecraft Items_193
+    21300388: Minecraft Items_194
+    21300390: Minecraft Items_195
+    21300392: Minecraft Items_196
+    21300394: Minecraft Items_197
+    21300396: Minecraft Items_198
+    21300398: Minecraft Items_199
+    21300400: Minecraft Items_200
+    21300402: Minecraft Items_201
+    21300404: Minecraft Items_202
+    21300406: Minecraft Items_203
+    21300408: Minecraft Items_204
+    21300410: Minecraft Items_205
+    21300412: Minecraft Items_206
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 256
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Head
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 192
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Iron Helm
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 192
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Diamond Helm
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 192
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Gold Helm
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 192
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Diamond
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 192
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Apple
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 192
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Body
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 176
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Iron Chest
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 176
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Diamond Chest
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 176
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Gold Chest
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 176
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Iron
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 176
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Coal
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 176
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Zombie Skin
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 176
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Legs
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 160
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Iron Legs
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 160
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Diamond Legs
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 160
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Gold Legs
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 160
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Gold
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 160
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Feet
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 144
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Iron Boots
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 144
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Diamond Boots
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 144
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Gold Boots
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 144
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Wood Sword
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 128
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Stone Sword
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 128
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Iron Sword
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 128
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Diamond Sword
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 128
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Gold Sword
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 128
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Raw Steak
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 128
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Raw Porkchop
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 128
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Sticks
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 112
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Invisable Sprite
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 176
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Spider Eye
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 112
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Steak
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 112
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Porkchop
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 112
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Wood Pickaxe
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 96
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Stone Pickaxe
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 96
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Iron Pickaxe
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 97
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Diamond Pickaxe
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 96
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Gold Pickaxe
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 96
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: String
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 96
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bones
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 96
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Feather
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 96
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Wood Axe
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Stone Axe
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Iron Axe
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Diamond Axe
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Gold Axe
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Raw Chicken
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Chicken
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Leather
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Door
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

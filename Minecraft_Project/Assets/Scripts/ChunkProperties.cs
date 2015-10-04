@@ -38,26 +38,48 @@ public class ChunkProperties : MonoBehaviour {
 		foreach (Transform temp in World.currentWorld.chunks)
 		{
 			ChunkGenerator chunkGen = transform.GetComponent<ChunkGenerator>();
-			if(corner != true)
+			if(xAxis)
 			{
-				if(xAxis)
-				{
-					lowerGradiant = World.currentWorld.chunks[chunkGen.GetChunkCoords(new Vector2(-1,0))].GetComponent<ChunkProperties>().gradiantValue;
-					upperGradiant = World.currentWorld.chunks[chunkGen.GetChunkCoords(new Vector2(1,0))].GetComponent<ChunkProperties>().gradiantValue;
+				if (temp.position == chunkGen.GetChunkCoords(new Vector2(-1,0)))
+			    {
+					lowerGradiant = temp.GetComponent<ChunkProperties>().gradiantValue;
 				}
-				else
-				{
-					lowerGradiant = World.currentWorld.chunks[chunkGen.GetChunkCoords(new Vector2(0,-1))].GetComponent<ChunkProperties>().gradiantValue;
-					upperGradiant = World.currentWorld.chunks[chunkGen.GetChunkCoords(new Vector2(0,1))].GetComponent<ChunkProperties>().gradiantValue;
+				if (temp.position == chunkGen.GetChunkCoords(new Vector2(1,0)))
+			    {
+					upperGradiant = temp.GetComponent<ChunkProperties>().gradiantValue;
 				}
 			}
 			else
 			{
+				if (temp.position == chunkGen.GetChunkCoords(new Vector2(0,-1)))
+				{
+					lowerGradiant = temp.GetComponent<ChunkProperties>().gradiantValue;
+				}
+				if (temp.position == chunkGen.GetChunkCoords(new Vector2(0,1)))
+				{
+					upperGradiant = temp.GetComponent<ChunkProperties>().gradiantValue;
+				}
+			}
 
-				bottomLeft = World.currentWorld.chunks[chunkGen.GetChunkCoords(new Vector2(-1,-1))].GetComponent<ChunkProperties>().gradiantValue;
-				bottomRight = World.currentWorld.chunks[chunkGen.GetChunkCoords(new Vector2(1,-1))].GetComponent<ChunkProperties>().gradiantValue;
-				topLeft = World.currentWorld.chunks[chunkGen.GetChunkCoords(new Vector2(-1,1))].GetComponent<ChunkProperties>().gradiantValue;
-				topRight = World.currentWorld.chunks[chunkGen.GetChunkCoords(new Vector2(1,1))].GetComponent<ChunkProperties>().gradiantValue;
+			if(corner)
+			{
+				if (temp.position == chunkGen.GetChunkCoords(new Vector2(-1,-1)))
+				{
+					bottomLeft = temp.GetComponent<ChunkProperties>().gradiantValue;
+				}
+				if (temp.position == chunkGen.GetChunkCoords(new Vector2(1,-1)))
+				{
+					bottomRight = temp.GetComponent<ChunkProperties>().gradiantValue;
+				}
+				if (temp.position == chunkGen.GetChunkCoords(new Vector2(-1,1)))
+				{
+					topLeft = temp.GetComponent<ChunkProperties>().gradiantValue;
+				}
+				if (temp.position == chunkGen.GetChunkCoords(new Vector2(1,1)))
+				{
+					topRight = temp.GetComponent<ChunkProperties>().gradiantValue;
+				}
+
 			}
 		}
 		if ( !corner && lowerGradiant != - 1 && upperGradiant != -1)
@@ -65,7 +87,7 @@ public class ChunkProperties : MonoBehaviour {
 			hasSetSides = true;
 			gameObject.GetComponent<ChunkGenerator>().CreateChunk();
 		}
-		else if(corner && bottomLeft != -1 && bottomRight != -1 && topLeft != -1 && topRight != -1)
+		else if(corner && bottomLeft != -1 && bottomRight != -1 && topLeft != -1 && topRight != -1 && lowerGradiant != -1 && upperGradiant != -1)
 		{
 			hasSetSides = true;
 			gameObject.GetComponent<ChunkGenerator>().CreateChunk();

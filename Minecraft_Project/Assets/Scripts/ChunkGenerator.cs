@@ -20,6 +20,8 @@ public class ChunkGenerator : MonoBehaviour {
 
 	protected ChunkProperties chunkProp = null;
 	CubeProperties cubeType;
+	public bool hasBeenInitialized = false;
+	bool firstPass = true;
 
 
 
@@ -47,15 +49,16 @@ public class ChunkGenerator : MonoBehaviour {
 				for(int y = 0; y < tempHeight; y++ )
 				{
 					if(y < min )
-						cubes[x,y,z] = (int)CubeProperties.cubeIndexes.stone;
+						cubes[x,y,z] = (byte)CubeProperties.cubeIndexes.stone;
 					else 
 						if(y == tempHeight -1 )
-							cubes[x,y,z] = (int)CubeProperties.cubeIndexes.grass;
+							cubes[x,y,z] = (byte)CubeProperties.cubeIndexes.grass;
 						else
-						cubes[x,y,z] = (int)CubeProperties.cubeIndexes.dirt;
+						cubes[x,y,z] = (byte)CubeProperties.cubeIndexes.dirt;
 				}
 			}
 		}
+		hasBeenInitialized = true;
 	}
 
 	public void CreateVisualMesh()
@@ -104,6 +107,26 @@ public class ChunkGenerator : MonoBehaviour {
 		visualMesh.RecalculateNormals ();
 		meshFilter.mesh = visualMesh;
 		meshCollider.sharedMesh = visualMesh;
+		if(firstPass && chunkProp.corner)
+		{
+			StartCoroutine(WaitAndReDraw());
+			firstPass = false;
+		}
+
+	}
+
+	IEnumerator WaitAndReDraw()
+	{
+		yield return new WaitForSeconds (.5f);
+		CreateVisualMesh ();
+		yield return new WaitForSeconds(.1f);
+		world.chunks[world.FindChunk(GetChunkCoords(new Vector2(-1,0)))].GetComponent<ChunkGenerator>().CreateVisualMesh();
+		yield return new WaitForSeconds(.1f);
+		world.chunks[world.FindChunk(GetChunkCoords(new Vector2(0,-1)))].GetComponent<ChunkGenerator>().CreateVisualMesh();
+		yield return new WaitForSeconds(.1f);
+		world.chunks[world.FindChunk(GetChunkCoords(new Vector2(1,0)))].GetComponent<ChunkGenerator>().CreateVisualMesh();
+		yield return new WaitForSeconds(.1f);
+		world.chunks[world.FindChunk(GetChunkCoords(new Vector2(0,1)))].GetComponent<ChunkGenerator>().CreateVisualMesh();
 	}
 
 	public bool IsCubeTransparent(int x , int y, int z)
@@ -128,7 +151,7 @@ public class ChunkGenerator : MonoBehaviour {
 	public byte GetCube(int x, int y, int z)
 	{
 		if ((x < 0) || (y < 0) || (z < 0) || (x >= world.chunkLength) || (y >= world.chunkHeight) || (z >= world.chunkLength))
-			return GetTheoreticalCube(x, y, z);
+			return GetTheoreticalCube(x, y, z); // if neighbor exists get thier vube if it doesnt get theoritical height
 		return cubes [x, y, z];
 	}
 
@@ -144,7 +167,7 @@ public class ChunkGenerator : MonoBehaviour {
 		if(z < 0)
 			index = world.FindChunk(GetChunkCoords(new Vector2(0,-1)));
 		
-		if(index == -1)
+		if(index == -1 || !world.chunks [index].GetComponent<ChunkGenerator> ().hasBeenInitialized )//or if the chunk hasnt been initialized
 		{
 			if (y >= (GetHeight (x, z) + world.groundOffset)) 
 				return 0;
@@ -180,6 +203,42 @@ public class ChunkGenerator : MonoBehaviour {
 
 		}
 		CreateVisualMesh ();
+	}
+
+	public void CreateCube(int x , int y, int z, CubeProperties.cubeIndexes cubeType)
+	{
+		int index = -1;
+		if(x >= world.chunkLength)
+			index = world.FindChunk(GetChunkCoords(new Vector2(1,0)));
+		else if(z >= world.chunkLength)
+			index = world.FindChunk(GetChunkCoords(new Vector2(0,1)));
+		else if(x < 0)
+			index = world.FindChunk(GetChunkCoords(new Vector2(-1,0)));
+		else if(z < 0)
+			index = world.FindChunk(GetChunkCoords(new Vector2(0,-1)));
+		if (x >= world.chunkLength)
+			x -= world.chunkLength;
+		else if (x < 0)
+			x += world.chunkLength;
+		else if (z >= world.chunkLength)
+			z -= world.chunkLength;
+		else if (z < 0)
+			z += world.chunkLength;
+		if(index != -1)
+		{
+			if(world.chunks [index].GetComponent<ChunkGenerator> ().GetCube (x , y , z) == 0 )
+			{
+				world.chunks [index].GetComponent<ChunkGenerator> ().CreateCube (x , y , z , cubeType);
+			}
+		}
+		else
+		{
+			if (GetCube (x, y, z) == 0) 
+			{
+				cubes [x, y, z] = (byte)cubeType;
+				CreateVisualMesh ();
+			}
+		}
 	}
 
 	public Vector3 GetChunkCoords(Vector2 dir)
@@ -238,49 +297,67 @@ public class ChunkGenerator : MonoBehaviour {
 		float ceiling = 2000000;
 		float PosX = transform.position.x + ceiling;
 		float Posz = transform.position.z + ceiling;
+		int tempGradiant = chunkProp.gradiantValue;
 		if (chunkProp.betweemBiomes)
 		{
 			if(chunkProp.corner != true)
 			{
 				if (chunkProp.xAxis)
-					chunkProp.gradiantValue = SmoothGradiant (chunkProp.lowerGradiant , chunkProp.upperGradiant , x);//  left chunk gradiant to right chunk gradiant
+					tempGradiant = SmoothGradiant (chunkProp.lowerGradiant , chunkProp.upperGradiant , x , 20 , 0);//  left chunk gradiant to right chunk gradiant
 				else
-					chunkProp.gradiantValue = SmoothGradiant (chunkProp.lowerGradiant , chunkProp.upperGradiant , z ); // from bottom chunk gradiant to top chunk gradiant
+					tempGradiant = SmoothGradiant (chunkProp.lowerGradiant , chunkProp.upperGradiant , z , 20 , 0); // from bottom chunk gradiant to top chunk gradiant
 			}
-			else chunkProp.gradiantValue = SmoothGradiantCorner(chunkProp.lowerGradiant , chunkProp.upperGradiant , x, z) ;
+			else tempGradiant = SmoothGradiantCorner(chunkProp.bottomLeft,chunkProp.bottomRight , chunkProp.topLeft , chunkProp.topRight , x, z) ;
 		}
-		return HeightGenerator.Get2DPearlinNoiseHeight (PosX + x, Posz + z, chunkProp.gradiantValue);
+		return HeightGenerator.Get2DPearlinNoiseHeight (PosX + x, Posz + z, tempGradiant);
 	}
 
-	int SmoothGradiant(int current, int target , int index)
+	int SmoothGradiant(int startGradiant, int targetGradiant , int index ,  int length , int startingAt)
 	{
-		index += 1;
-		float gradiant = (float)Mathf.Abs (current - target);
-		gradiant /= 20f;
+		//index += 1;
+		index -= startingAt;
+		float gradiant = targetGradiant - startGradiant;
+		gradiant /= length;
 		gradiant *= index;
-		if (current < target)
-			gradiant += current;
-		else
-			gradiant = current - gradiant;
+		gradiant += startGradiant;
 		return (int)Mathf.Round (gradiant);
 	}
 
 	int SmoothGradiantCorner(int bL , int bR, int tL, int tR , int x, int z)
 	{
 		int avgGradiant = (bL + bR + tL + tR) / 4;
-		//return (SmoothGradiant(SmoothGradiant(lower , upper , SmoothGradiant(lower , upper , x)) , avgGradiant , z));
-		// change avg gradient to other based on wether bottom right bottome left or uper... so it starts at lower then goes avg or starts at upper and goes avg 
+		int xGradiant = -1;
+		int zGradiant = -1;
+		if (z <= world.chunkLength / 2 && x <= world.chunkLength / 2) 
+		{
+			xGradiant = SmoothGradiant(bL, avgGradiant , x , 10 ,0);
+			zGradiant = SmoothGradiant(bL , avgGradiant , z ,10 ,0);
+			return (xGradiant + zGradiant) /2;
+		} 
+		else if (z <= world.chunkLength / 2 && x > world.chunkLength / 2) 
+		{
+			xGradiant = SmoothGradiant(bR, avgGradiant , x -1 , 10 , 10);
+			zGradiant = SmoothGradiant(bR , avgGradiant , z , 10 ,0);
+			return (xGradiant + zGradiant) /2;
+		} 
+		else if (z > world.chunkLength / 2 && x <= world.chunkLength / 2) 
+		{
+			//z = z -11;
+			xGradiant = SmoothGradiant(avgGradiant, tL , x ,10, 0);
+			zGradiant = SmoothGradiant( avgGradiant , tL, z -1  ,10,10);
+			return (xGradiant + zGradiant) /2;
+		} 
+		else
+		{
+			//x -=11;
+			//z -=11;
+			xGradiant = SmoothGradiant(avgGradiant, tR , x -1 ,10,10);
+			zGradiant = SmoothGradiant(avgGradiant , tR , z -1 ,10,10);
+			return (xGradiant + zGradiant) /2;
+		}
+		
 
 
-//		if (z < world.chunkLength / 2)
-//		{	//return (SmoothGradiant(SmoothGradiant(lower , upper , x) , lower , z));
-//			if (x < world.chunkLength / 2)
-//				return SmoothGradiant(SmoothGradiant());
-//			else
-//				return SmoothGradiant();
-//		}
-//		else
-//			return ;//(SmoothGradiant(SmoothGradiant( ,  , x) , upper , z));	
 	}
 
 	void InitializeVariables ()

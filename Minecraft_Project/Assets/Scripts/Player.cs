@@ -33,6 +33,8 @@ public class Player : MonoBehaviour
 	
 	void Update () 
 	{
+		if (OpenMenus.inMenu)
+			return;
 		float rotLeftRight = Input.GetAxis ("Mouse X") * mouseSen;
 		transform.Rotate (0, rotLeftRight, 0);
 		
@@ -78,36 +80,56 @@ public class Player : MonoBehaviour
 //		}
 		if (Input.GetMouseButtonDown (1)) 
 		{
-			RaycastHit hit;
-			if(Physics.Raycast(myCamera.transform.position,  myCamera.forward,out hit, blockPlaceRange))
-			{
-				if(hit.collider.gameObject.tag == "World")
-				{
-					Debug.Log("Build at : " + (hit.point - hit.transform.position));
-					//Instantiate( block, hit.collider.gameObject.transform.position + hit.normal, hit.transform.rotation );
-				}
-			}
-			
+			AddCubeToMesh();
 		}
 		if (Input.GetMouseButtonDown (0)) 
 		{
-			RaycastHit hit;
-			if(Physics.Raycast(myCamera.transform.position,  myCamera.forward,out hit, blockDestroyRange))
-			{
-				if(hit.collider.gameObject.tag == "World")
-				{
-					int x,y,z;
-					hit.point -= hit.normal/2;
-					x = Mathf.FloorToInt(hit.point.x - hit.transform.position.x);
-					y = Mathf.FloorToInt(hit.point.y - hit.transform.position.y);
-					z = Mathf.FloorToInt(hit.point.z - hit.transform.position.z);
-					hit.collider.gameObject.GetComponent<ChunkGenerator>().DestroyCube(x,y,z);
-				}
-			}
-			
+			DestroyCubeFromMesh();
 		}
 
 	}
+
+	void AddCubeToMesh()
+	{
+		RaycastHit hit;
+		if(Physics.Raycast(myCamera.transform.position,  myCamera.forward,out hit, blockPlaceRange))
+		{
+			hit.point += hit.normal/2;
+			Collider[] hitColliders =  Physics.OverlapSphere(hit.point , 0.5f);
+			foreach (Collider temp in hitColliders)
+			{
+				if(temp.tag == "Player")
+					return;
+			}
+			if(hit.collider.gameObject.tag == "World")
+			{
+				int x,y,z;
+
+				x = Mathf.FloorToInt(hit.point.x - hit.transform.position.x);
+				y = Mathf.FloorToInt(hit.point.y - hit.transform.position.y);
+				z = Mathf.FloorToInt(hit.point.z - hit.transform.position.z);
+				hit.collider.gameObject.GetComponent<ChunkGenerator>().CreateCube(x,y,z , CubeProperties.cubeIndexes.wood);;
+			}
+		}
+	}
+
+	void DestroyCubeFromMesh()
+	{
+		RaycastHit hit;
+		if(Physics.Raycast(myCamera.transform.position,  myCamera.forward,out hit, blockDestroyRange))
+		{
+			if(hit.collider.gameObject.tag == "World")
+			{
+				int x,y,z;
+				hit.point -= hit.normal/2;
+				x = Mathf.FloorToInt(hit.point.x - hit.transform.position.x);
+				y = Mathf.FloorToInt(hit.point.y - hit.transform.position.y);
+				z = Mathf.FloorToInt(hit.point.z - hit.transform.position.z);
+				hit.collider.gameObject.GetComponent<ChunkGenerator>().DestroyCube(x,y,z);
+			}
+		}
+	}
+
 	void OnCollisionStay (Collision other)
 	{
 		if(other.gameObject.tag == "World")

@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 755eb1029abde494089c86c066f2fab7
+timeCreated: 1443928279
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - invisSprite: {fileID: 21300162, guid: 9de9355f51cb4fe419711f19ef74a1b9, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

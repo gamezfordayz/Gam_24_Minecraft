@@ -62,6 +62,7 @@ public class World : MonoBehaviour
 				GameObject temp = objectsToSetActive.Dequeue();
 				temp.transform.gameObject.SetActive(true);
 				temp.GetComponent<ChunkGenerator>().CreateVisualMesh();
+				yield return new WaitForSeconds(waitForSeconds/20f);
 			}
 
 			if (objectsToSpawn.Count != 0) 
