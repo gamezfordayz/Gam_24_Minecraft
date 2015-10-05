@@ -74,16 +74,16 @@ public class CubeProperties : MonoBehaviour
 	void InitializeStructs()
 	{
 		cubeProps stone = new cubeProps();
-		InitializeItemStruct (stone, itemIDs.stone, itemType.block, true, true , defaultGameObject , defaultSprite, 1f, 6f);
+		InitializeItemStruct (stone, itemIDs.stone, itemType.block, true, true , possibleDrops[0] , defaultSprite, 1f, 6f);
 
 		cubeProps dirt = new cubeProps();
-		InitializeItemStruct (dirt, itemIDs.dirt,itemType.block, true, true , defaultGameObject , defaultSprite, 2f, 6f);
+		InitializeItemStruct (dirt, itemIDs.dirt,itemType.block, true, true , possibleDrops[1] , defaultSprite, 2f, 6f);
 
 		cubeProps grass = new cubeProps();
-		InitializeItemStruct (grass, itemIDs.grass, itemType.block, true, true , defaultGameObject , defaultSprite, 0f, 6f, 3f, 6f, 2f, 6f);
+		InitializeItemStruct (grass, itemIDs.grass, itemType.block, true, true , possibleDrops[1] , defaultSprite, 0f, 6f, 3f, 6f, 2f, 6f);
 
 		cubeProps cobble = new cubeProps();
-		InitializeItemStruct (cobble, itemIDs.cobble, itemType.block, true, true , defaultGameObject , defaultSprite, 0f, 5f);
+		InitializeItemStruct (cobble, itemIDs.cobble, itemType.block, true, true , possibleDrops[0] , defaultSprite, 0f, 5f);
 
 		cubeProps sand = new cubeProps();
 		InitializeItemStruct (sand, itemIDs.sand,itemType.block, true, true , defaultGameObject , defaultSprite, 2f, 5f);
