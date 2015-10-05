@@ -69,15 +69,15 @@ public class World : MonoBehaviour
 			{
 				GameObject temp = (GameObject)Instantiate (chunkFab, objectsToSpawn.Dequeue(), Quaternion.identity);
 				temp.GetComponent<ChunkProperties>().gradiantValue += Mathf.Abs(5 *(Mathf.FloorToInt(temp.transform.position.x /100) + Mathf.FloorToInt(temp.transform.position.z /100)));
-				if(temp.transform.position.x % 100 == 0 || temp.transform.position.z % 100 == 0)
+				if(temp.transform.position.x % 200 == 0 || temp.transform.position.z % 200 == 0)
 				{
 					temp.GetComponent<ChunkProperties>().betweemBiomes = true;
 					temp.GetComponent<ChunkProperties>().hasSetSides = false;
-					if(temp.transform.position.x % 100 == 0 && temp.transform.position.z % 100 == 0)
+					if(temp.transform.position.x % 200 == 0 && temp.transform.position.z % 200 == 0)
 					{
 						temp.GetComponent<ChunkProperties>().corner = true;
 					}
-					else if(temp.transform.position.x % 100 == 0 )
+					else if(temp.transform.position.x % 200 == 0 )
 						temp.GetComponent<ChunkProperties>().xAxis = true;
 					else
 						temp.GetComponent<ChunkProperties>().xAxis = false;

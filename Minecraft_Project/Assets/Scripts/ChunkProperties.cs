@@ -8,10 +8,9 @@ public class ChunkProperties : MonoBehaviour {
 	public int stoneHeightMin = 12;
 	public int stoneHeightMax = 15;
 	public bool betweemBiomes = false;
+	// need a biome type that way if is desert make cactus and sand if mountauns make grass or snow
 	public bool xAxis = true;
 	public bool corner = false;
-	public bool reversed = true;
-	public bool lower = false;
 	public int boimeType = 0;
 
 	public bool hasSetSides = false;
@@ -85,12 +84,12 @@ public class ChunkProperties : MonoBehaviour {
 		if ( !corner && lowerGradiant != - 1 && upperGradiant != -1)
 		{
 			hasSetSides = true;
-			gameObject.GetComponent<ChunkGenerator>().CreateChunk();
+			StartCoroutine(gameObject.GetComponent<ChunkGenerator>().CreateChunk());
 		}
 		else if(corner && bottomLeft != -1 && bottomRight != -1 && topLeft != -1 && topRight != -1 && lowerGradiant != -1 && upperGradiant != -1)
 		{
 			hasSetSides = true;
-			gameObject.GetComponent<ChunkGenerator>().CreateChunk();
+			StartCoroutine(gameObject.GetComponent<ChunkGenerator>().CreateChunk());
 		}
 	}
 }

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class Player : MonoBehaviour 
@@ -108,7 +108,7 @@ public class Player : MonoBehaviour
 				x = Mathf.FloorToInt(hit.point.x - hit.transform.position.x);
 				y = Mathf.FloorToInt(hit.point.y - hit.transform.position.y);
 				z = Mathf.FloorToInt(hit.point.z - hit.transform.position.z);
-				hit.collider.gameObject.GetComponent<ChunkGenerator>().CreateCube(x,y,z , CubeProperties.cubeIndexes.wood);;
+				hit.collider.gameObject.GetComponent<ChunkGenerator>().CreateCube(x,y,z , CubeProperties.itemIDs.craftingTable);
 			}
 		}
 	}

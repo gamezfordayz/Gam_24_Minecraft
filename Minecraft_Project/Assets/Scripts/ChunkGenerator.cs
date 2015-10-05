@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -11,7 +11,6 @@ public class ChunkGenerator : MonoBehaviour {
 	World world = null;
 
 	public byte [,,] cubes;
-
 
 	protected Mesh visualMesh = null;
 	protected MeshRenderer meshRender = null;
@@ -29,12 +28,13 @@ public class ChunkGenerator : MonoBehaviour {
 	void Start () {
 		InitializeVariables ();
 		if (chunkProp.betweemBiomes != true) {
-			CreateChunk();
+			StartCoroutine(CreateChunk());
 		}
 	}
 
-	public void CreateChunk(){
+	public IEnumerator CreateChunk(){
 		InitializeChunk ();
+		yield return new WaitForSeconds (.1f);
 		CreateVisualMesh ();
 	}
 
@@ -49,12 +49,12 @@ public class ChunkGenerator : MonoBehaviour {
 				for(int y = 0; y < tempHeight; y++ )
 				{
 					if(y < min )
-						cubes[x,y,z] = (byte)CubeProperties.cubeIndexes.stone;
+						cubes[x,y,z] = (byte)CubeProperties.itemIDs.stone;
 					else 
 						if(y == tempHeight -1 )
-							cubes[x,y,z] = (byte)CubeProperties.cubeIndexes.grass;
+							cubes[x,y,z] = (byte)CubeProperties.itemIDs.grass;
 						else
-						cubes[x,y,z] = (byte)CubeProperties.cubeIndexes.dirt;
+						cubes[x,y,z] = (byte)CubeProperties.itemIDs.dirt;
 				}
 			}
 		}
@@ -119,13 +119,13 @@ public class ChunkGenerator : MonoBehaviour {
 	{
 		yield return new WaitForSeconds (.5f);
 		CreateVisualMesh ();
-		yield return new WaitForSeconds(.1f);
+		yield return new WaitForSeconds(.2f);
 		world.chunks[world.FindChunk(GetChunkCoords(new Vector2(-1,0)))].GetComponent<ChunkGenerator>().CreateVisualMesh();
-		yield return new WaitForSeconds(.1f);
+		yield return new WaitForSeconds(.2f);
 		world.chunks[world.FindChunk(GetChunkCoords(new Vector2(0,-1)))].GetComponent<ChunkGenerator>().CreateVisualMesh();
-		yield return new WaitForSeconds(.1f);
+		yield return new WaitForSeconds(.2f);
 		world.chunks[world.FindChunk(GetChunkCoords(new Vector2(1,0)))].GetComponent<ChunkGenerator>().CreateVisualMesh();
-		yield return new WaitForSeconds(.1f);
+		yield return new WaitForSeconds(.2f);
 		world.chunks[world.FindChunk(GetChunkCoords(new Vector2(0,1)))].GetComponent<ChunkGenerator>().CreateVisualMesh();
 	}
 
@@ -189,6 +189,7 @@ public class ChunkGenerator : MonoBehaviour {
 
 	public void DestroyCube(int x, int y , int z)
 	{
+		byte cube = GetCube (x, y, z);
 		cubes [x, y, z] = 0;
 		if (x == 0 || z == 0 || z == world.chunkLength - 1 || x == world.chunkLength -1 )
 		{
@@ -202,10 +203,13 @@ public class ChunkGenerator : MonoBehaviour {
 				world.chunks[world.FindChunk(GetChunkCoords(new Vector2(0,1)))].GetComponent<ChunkGenerator>().CreateVisualMesh();
 
 		}
+		Vector3 spawnPos = new Vector3 (transform.position.x + x +0.5f , transform.position.y + y + 0.5f , transform.position.z + z + 0.5f);
+		GameObject temp = (GameObject)Instantiate (CubeProperties.cubeProperties.itemDict[(CubeProperties.itemIDs)cube].gameObjectToDrop ,spawnPos ,Quaternion.identity );
+		temp.GetComponent<DroppedObject> ().itemID = (int)cube;
 		CreateVisualMesh ();
 	}
 
-	public void CreateCube(int x , int y, int z, CubeProperties.cubeIndexes cubeType)
+	public void CreateCube(int x , int y, int z, CubeProperties.itemIDs cubeType)
 	{
 		int index = -1;
 		if(x >= world.chunkLength)
@@ -256,15 +260,17 @@ public class ChunkGenerator : MonoBehaviour {
 
 	void AssignUvs( ref List<Vector2> uvs, int x, int y, int z , int uvIndex)
 	{
-
+		float offset = .004f;
+		//float heightOffset = .005f;
 		Vector2 uvSize = cubeType.uvSize;
 		if (cubes [x, y, z] != 0) 
 		{
-			Vector2 uvCorner = Vector2.Scale(cubeType.cubeDict[(CubeProperties.cubeIndexes)cubes [x, y, z]].uvIndexes[uvIndex] , uvSize);
-			uvs.Add (uvCorner);
-			uvs.Add (new Vector2 (uvCorner.x, uvCorner.y + uvSize.y));				
-			uvs.Add (new Vector2 (uvCorner.x + uvSize.x, uvCorner.y + uvSize.y));
-			uvs.Add (new Vector2 (uvCorner.x + uvSize.x, uvCorner.y));
+
+			Vector2 uvCorner = Vector2.Scale(cubeType.itemDict[(CubeProperties.itemIDs)cubes [x, y, z]].uvIndexes[uvIndex] , uvSize);
+			uvs.Add (uvCorner + new Vector2(offset , offset));
+			uvs.Add (new Vector2 (uvCorner.x + offset, uvCorner.y + uvSize.y - offset));				
+			uvs.Add (new Vector2 (uvCorner.x + uvSize.x - offset, uvCorner.y + uvSize.y - offset));
+			uvs.Add (new Vector2 (uvCorner.x + uvSize.x -offset, uvCorner.y + offset));
 		}
 	}
 
@@ -370,7 +376,7 @@ public class ChunkGenerator : MonoBehaviour {
 		meshFilter = GetComponent<MeshFilter> ();
 
 		chunkProp = GetComponent<ChunkProperties> ();
-		cubeType = CubeProperties.cubeType;
+		cubeType = CubeProperties.cubeProperties;
 	}
 
 	// ok if the byte im looking for is off my grid then find the byte i need by calling get virtual .. this will check the height and see if there is a cube at that pos
