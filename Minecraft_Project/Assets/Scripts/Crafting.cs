@@ -1,4 +1,4 @@
-﻿ using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using System.Xml;					//System.Xml contains basic XML functions and processing
 using System.Xml.Serialization;		//System.Xml.Serialization serializes XML files to be formatted correctly
@@ -18,13 +18,15 @@ using System.Text;
 //http://wiki.unity3d.com/index.php/Save_and_Load_from_XML
 //http://forum.unity3d.com/threads/saving-and-loading-data-xmlserializer.85925/
 //http://wiki.unity3d.com/index.php?title=Saving_and_Loading_Data:_XmlSerializer
+//http://answers.unity3d.com/questions/279750/loading-data-from-a-txt-file-c.html
 
 public class Crafting : MonoBehaviour 
 {
-	public string fileName, fileLocation, tempData;
+	public string fileName, fileLocation, tempData, tempLine;
 	public int[] craftingID;
 	public int outputID;
 	public string craftingIDs;
+	public TextAsset SaveData;
 
 	void Start () 
 	{
@@ -40,15 +42,44 @@ public class Crafting : MonoBehaviour
 		fileName = "SaveData.xml"; 
 	}
 
+	public void GetCraftingData()
+	{
+		string line;
+		StreamReader reader = File.OpenText(fileLocation + "\\" +  fileName); 
+		string temp = "8 4 8 8 3 3 1 4 2 ";
+		using (reader)
+		{
+			do
+			{
+				line = reader.ReadLine();
+				if(line != null)
+				{
+					string[] entries = line.Split(',');
+					for (int i=0; i<entries.Length;i++)
+					{
+						//PUT IN COMPARE STRING THINGS
+						if (entries[i] == temp)
+						{
+							print(entries[i+1]);
+						}
+					}
+				}
+			}
+			while (line != null);
+			reader.Close();
+		}
+	}
+
 	public void ButtonSaveNewXML()
 	{
+		//SAVE CRAFTING ID ARRAYS
 		for(int i=0; i < 9; i++)
 		{
 			craftingID[i] = (int)Random.Range(0,10);
 			craftingIDs += craftingID[i].ToString() + " ";
 		}
 		outputID = (int)Random.Range (0, 5);
-		craftingIDs += outputID.ToString() + "\n";
+		craftingIDs += "," + outputID.ToString() + "," + "\n";
 		SaveXML ();
 	}
 
@@ -56,35 +87,27 @@ public class Crafting : MonoBehaviour
 	{
 		FileInfo file = new FileInfo (fileLocation + "\\" + fileName);
 		file.Delete ();
-		print ("File Deleted");
 	}
 
 	void LoadXML() 
 	{ 
+		FileInfo file = new FileInfo(fileLocation + "\\" + fileName); 
+		if (!file.Exists)
+		{
+			tempData = null;
+			SaveXML();
+		}
 		StreamReader reader = File.OpenText(fileLocation + "\\" +  fileName); 
 		string content = reader.ReadToEnd(); 
 		reader.Close(); 
-
-		tempData = content; 
-		Debug.Log (tempData);
-		print("File Loaded and Read"); 
+		tempData = content;
 	} 
 	
 	public void SaveXML() 
 	{ 
 		StreamWriter writer; 
 		FileInfo file = new FileInfo(fileLocation + "\\" + fileName); 
-		if(!file.Exists) 
-		{ 
-			writer = file.CreateText(); 
-			print("Was not there and written.");
-		} 
-		else 
-		{ 
-			//file.Delete(); 
-			writer = file.CreateText(); 
-			print("Was Written.");
-		} 
+		writer = file.CreateText(); 
 		writer.Write (tempData);
 		writer.Write(craftingIDs); 
 		writer.Close(); 
