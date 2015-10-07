@@ -61,14 +61,16 @@ public class World : MonoBehaviour
 			{
 				GameObject temp = objectsToSetActive.Dequeue();
 				temp.transform.gameObject.SetActive(true);
-				temp.GetComponent<ChunkGenerator>().CreateVisualMesh();
-				yield return new WaitForSeconds(waitForSeconds/20f);
+				//temp.GetComponent<ChunkGenerator>().CreateVisualMesh();
+				yield return new WaitForSeconds(waitForSeconds/10f);
 			}
 
 			if (objectsToSpawn.Count != 0) 
 			{
 				GameObject temp = (GameObject)Instantiate (chunkFab, objectsToSpawn.Dequeue(), Quaternion.identity);
-				temp.GetComponent<ChunkProperties>().gradiantValue += Mathf.Abs(5 *(Mathf.FloorToInt(temp.transform.position.x /100) + Mathf.FloorToInt(temp.transform.position.z /100)));
+				BiomeTypes.biomeType biome = BiomeTypes.biomeGenerator.CheckIfBiomeExists(temp.transform.position).type;
+				temp.GetComponent<ChunkProperties>().biome = biome;
+
 				if(temp.transform.position.x % 200 == 0 || temp.transform.position.z % 200 == 0)
 				{
 					temp.GetComponent<ChunkProperties>().betweemBiomes = true;
@@ -87,6 +89,7 @@ public class World : MonoBehaviour
 			yield return new WaitForSeconds (waitForSeconds/10f);
 		}
 	}
+
 
 	void GetChunkPosToSpawn()
 	{

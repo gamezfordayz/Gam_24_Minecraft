@@ -33,6 +33,10 @@ public class ChunkGenerator : MonoBehaviour {
 	}
 
 	public IEnumerator CreateChunk(){
+		while(!chunkProp.hasSetBiomeInfo)
+		{
+			yield return null;
+		}
 		InitializeChunk ();
 		yield return new WaitForSeconds (.1f);
 		CreateVisualMesh ();
@@ -52,9 +56,9 @@ public class ChunkGenerator : MonoBehaviour {
 						cubes[x,y,z] = (byte)CubeProperties.itemIDs.stone;
 					else 
 						if(y == tempHeight -1 )
-							cubes[x,y,z] = (byte)CubeProperties.itemIDs.grass;
+							cubes[x,y,z] = (byte)chunkProp.defaultGrass;
 						else
-						cubes[x,y,z] = (byte)CubeProperties.itemIDs.dirt;
+						cubes[x,y,z] = (byte)chunkProp.defaultCube;
 				}
 			}
 		}
@@ -62,6 +66,10 @@ public class ChunkGenerator : MonoBehaviour {
 	}
 
 	public void CreateVisualMesh()
+	{
+		StartCoroutine (CreateVisualMeshDelayed());
+	}
+	public IEnumerator CreateVisualMeshDelayed()
 	{
 		visualMesh = new Mesh ();
 
@@ -72,9 +80,15 @@ public class ChunkGenerator : MonoBehaviour {
 		const int TOP = 0;
 		const int SIDE = 1;
 		const int BOTTOM = 2;
-
+		bool hasNotYeilded = true;
 		for (int x = 0; x < world.chunkLength; x++) 
 		{
+			if(x > world.chunkLength/2 && hasNotYeilded)
+			{
+				yield return null;
+				hasNotYeilded = false;
+			}
+
 			for (int z = 0; z < world.chunkLength; z++) 
 			{
 				for(int y = 0; y < world.chunkHeight; y++)
@@ -334,36 +348,11 @@ public class ChunkGenerator : MonoBehaviour {
 		int avgGradiant = (bL + bR + tL + tR) / 4;
 		int xGradiant = -1;
 		int zGradiant = -1;
-		if (z <= world.chunkLength / 2 && x <= world.chunkLength / 2) 
-		{
-			xGradiant = SmoothGradiant(bL, avgGradiant , x , 10 ,0);
-			zGradiant = SmoothGradiant(bL , avgGradiant , z ,10 ,0);
-			return (xGradiant + zGradiant) /2;
-		} 
-		else if (z <= world.chunkLength / 2 && x > world.chunkLength / 2) 
-		{
-			xGradiant = SmoothGradiant(bR, avgGradiant , x -1 , 10 , 10);
-			zGradiant = SmoothGradiant(bR , avgGradiant , z , 10 ,0);
-			return (xGradiant + zGradiant) /2;
-		} 
-		else if (z > world.chunkLength / 2 && x <= world.chunkLength / 2) 
-		{
-			//z = z -11;
-			xGradiant = SmoothGradiant(avgGradiant, tL , x ,10, 0);
-			zGradiant = SmoothGradiant( avgGradiant , tL, z -1  ,10,10);
-			return (xGradiant + zGradiant) /2;
-		} 
-		else
-		{
-			//x -=11;
-			//z -=11;
-			xGradiant = SmoothGradiant(avgGradiant, tR , x -1 ,10,10);
-			zGradiant = SmoothGradiant(avgGradiant , tR , z -1 ,10,10);
-			return (xGradiant + zGradiant) /2;
-		}
-		
-
-
+		z += 1;
+		x += 1;
+		xGradiant = Mathf.RoundToInt(((float)SmoothGradiant(SmoothGradiant(bL , tL , z ,20 , 0) , SmoothGradiant(bR , tR , z ,20 , 0) , x , 20 ,0) * ((float)x/ 20f)));
+		zGradiant = Mathf.RoundToInt(((float)SmoothGradiant(SmoothGradiant(bL , bR , x ,20 , 0) , SmoothGradiant(tL , tR , x ,20 , 0) , z ,20 ,0)* ((float)z/ 20f)));
+		return Mathf.RoundToInt(((xGradiant + zGradiant) / ((float)x/20f + (float)z/20f))) ;
 	}
 
 	void InitializeVariables ()

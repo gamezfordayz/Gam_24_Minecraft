@@ -14,11 +14,11 @@ public class CubeProperties : MonoBehaviour
 	public enum itemIDs
 	{
 		air, stone, dirt, grass, cobble, sand, snowGrass ,wood, plank, coal, iron
-		, gold, diamond, cactus, leaves , craftingTable , furnace
+		, gold, diamond, cactus, leaves , craftingTable , furnace , apple
 	};
 	public enum itemType
 	{
-		block , weapon, equiptment , pickaxe , axe, crafting 
+		block , weapon, equiptment , pickaxe , axe, crafting , food
 	};
 	public Dictionary<itemIDs , cubeProps> itemDict = new Dictionary<itemIDs, cubeProps> ();
 
@@ -27,10 +27,12 @@ public class CubeProperties : MonoBehaviour
 		public Vector2[] uvIndexes;
 		public itemIDs itemID;
 		public itemType itemType;
-		public bool dropGameObject;
+		public bool hasDrop;
 		public GameObject gameObjectToDrop;
 		public Sprite inventorySprite;
 		public bool stackable;
+		public int hp;
+		public int damage;
 
 		// the inventory srite can be the same as the item id index along with what to drop
 		//public Sprite inventorySprite;
@@ -45,26 +47,30 @@ public class CubeProperties : MonoBehaviour
 		cubeProperties = this;
 	}
 
-	void InitializeItemStruct(cubeProps temp ,itemIDs id, itemType type,  bool stackable,  bool dropGameObject, GameObject objectToDrop , Sprite sprite, float topX , float topY)
+	void InitializeItemStruct(cubeProps temp ,itemIDs id, itemType type,  bool stackable,  bool hasDrop , GameObject objectToDrop , Sprite sprite, float topX , float topY)
 	{
 		temp.itemID = id;
 		temp.itemType = type;
 		temp.stackable = stackable;
-		temp.dropGameObject = dropGameObject;
+		temp.hasDrop = hasDrop;
 		temp.gameObjectToDrop = objectToDrop;
 		temp.inventorySprite = sprite;
+		//temp.hp = hp;
+		//temp.damage = damage;
 		temp.uvIndexes = new Vector2[]{new Vector2 (topX, topY) , new Vector2 (topX, topY) , new Vector2 (topX, topY)};
 		itemDict.Add (temp.itemID, temp);
 	}
 
-	void InitializeItemStruct(cubeProps temp ,itemIDs id, itemType type,  bool stackable,  bool dropGameObject, GameObject objectToDrop , Sprite sprite, float topX , float topY , float sideX , float sideY , float bottomX , float bottomY)
+	void InitializeItemStruct(cubeProps temp ,itemIDs id, itemType type,  bool stackable,  bool hasDrop ,  GameObject objectToDrop , Sprite sprite ,float topX , float topY , float sideX , float sideY , float bottomX , float bottomY)
 	{
 		temp.itemID = id;
 		temp.itemType = type;
 		temp.stackable = stackable;
-		temp.dropGameObject = dropGameObject;
+		temp.hasDrop = hasDrop;
 		temp.gameObjectToDrop = objectToDrop;
 		temp.inventorySprite = sprite;
+		//temp.hp = hp;
+		//temp.damage = damage;
 		temp.uvIndexes = new Vector2[]{new Vector2 (topX, topY) , new Vector2 (sideX, sideY) , new Vector2 (bottomX, bottomY)};
 		itemDict.Add (temp.itemID, temp);
 	}
@@ -104,7 +110,7 @@ public class CubeProperties : MonoBehaviour
 		InitializeItemStruct (gold , itemIDs.gold,itemType.block, true, true , defaultGameObject , defaultSprite, 0f, 4f);
 
 		cubeProps diamond = new cubeProps();
-		InitializeItemStruct (diamond , itemIDs.diamond,itemType.block, true, false , defaultGameObject , defaultSprite, 2f,3f);
+		InitializeItemStruct (diamond , itemIDs.diamond,itemType.block, true, true , defaultGameObject , defaultSprite, 2f,3f);
 
 		cubeProps cactus = new cubeProps();
 		InitializeItemStruct (cactus , itemIDs.cactus ,itemType.block, true, true , defaultGameObject , defaultSprite, 5f, 2f, 6f, 2f, 7f, 2f);
@@ -114,10 +120,13 @@ public class CubeProperties : MonoBehaviour
 		InitializeItemStruct (leaves , itemIDs.leaves, itemType.block, true, false , defaultGameObject , defaultSprite, 4f, 3f);
 
 		cubeProps coal = new cubeProps();
-		InitializeItemStruct (coal , itemIDs.coal, itemType.block, true, false , defaultGameObject , defaultSprite, 2f ,4f);
+		InitializeItemStruct (coal , itemIDs.coal, itemType.block, true, true , defaultGameObject , defaultSprite, 2f ,4f);
 
 		cubeProps craftingTable = new cubeProps ();
-		InitializeItemStruct (craftingTable , itemIDs.craftingTable, itemType.crafting, false, true , defaultGameObject , defaultSprite, 11f, 4f , 11f , 3f ,11f, 4f );
+		InitializeItemStruct (craftingTable , itemIDs.craftingTable, itemType.block, false, true , defaultGameObject , defaultSprite, 11f, 4f , 11f , 3f ,11f, 4f );
+
+//		cubeProps apple = new cubeProps ();
+//		InitializeItemStruct (apple, itemIDs.apple , itemType.food , true, true , , ,0f,0f );
 	}
 
 }
