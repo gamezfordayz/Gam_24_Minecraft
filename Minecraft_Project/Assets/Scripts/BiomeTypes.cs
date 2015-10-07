@@ -107,6 +107,8 @@ public class BiomeTypes : MonoBehaviour
 	createBiome CreateNewBiome(Vector3 pos)
 	{
 		int xSign = (int)Mathf.Sign (pos.x), zSign = (int)Mathf.Sign (pos.z);
+		pos.x = Mathf.Abs (pos.x);
+		pos.z = Mathf.Abs (pos.z);
 		Vector3 start = new Vector3(((int)pos.x/biomeSize) * biomeSize * xSign , 0, ((int)pos.z/biomeSize) * biomeSize * zSign );
 		Vector3 end = new Vector3 (start.x + (biomeSize * xSign) , 0f, start.z + (biomeSize * zSign));
 		biomeType type = (biomeType)Random.Range (0, 4);

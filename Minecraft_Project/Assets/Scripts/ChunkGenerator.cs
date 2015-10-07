@@ -218,8 +218,7 @@ public class ChunkGenerator : MonoBehaviour {
 
 		}
 		Vector3 spawnPos = new Vector3 (transform.position.x + x +0.5f , transform.position.y + y + 0.5f , transform.position.z + z + 0.5f);
-		GameObject temp = (GameObject)Instantiate (CubeProperties.cubeProperties.itemDict[(CubeProperties.itemIDs)cube].gameObjectToDrop ,spawnPos ,Quaternion.identity );
-		temp.GetComponent<DroppedObject> ().itemID = (int)cube;
+		Instantiate (CubeProperties.cubeProperties.itemDict[(CubeProperties.itemIDs)cube].gameObjectToDrop ,spawnPos ,Quaternion.identity );
 		CreateVisualMesh ();
 	}
 
@@ -345,7 +344,6 @@ public class ChunkGenerator : MonoBehaviour {
 
 	int SmoothGradiantCorner(int bL , int bR, int tL, int tR , int x, int z)
 	{
-		int avgGradiant = (bL + bR + tL + tR) / 4;
 		int xGradiant = -1;
 		int zGradiant = -1;
 		z += 1;

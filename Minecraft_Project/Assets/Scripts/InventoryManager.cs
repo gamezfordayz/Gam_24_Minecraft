@@ -30,7 +30,7 @@ public class InventoryManager : MonoBehaviour {
 //		}
 //	}
 
-	public SlotProperties GetNextAvailableSlot(int itemID)
+	public SlotProperties GetNextAvailableSlot(CubeProperties.itemIDs itemID)
 	{
 		foreach( SlotProperties temp in mainInventorySlots)
 		{
@@ -45,7 +45,7 @@ public class InventoryManager : MonoBehaviour {
 		return null;
 	}
 
-	public SlotProperties CheckIfIsInInvenory(int itemID)
+	public SlotProperties CheckIfIsInInvenory(CubeProperties.itemIDs itemID)
 	{
 		foreach( SlotProperties temp in mainInventorySlots)
 		{
@@ -60,9 +60,9 @@ public class InventoryManager : MonoBehaviour {
 		return null;
 	}
 
-	public bool AddItemToInventory(int itemID)
+	public bool AddItemToInventory(CubeProperties.itemIDs itemID)
 	{
-		if(CubeProperties.cubeProperties.itemDict[(CubeProperties.itemIDs)itemID].stackable)
+		if(CubeProperties.cubeProperties.itemDict[itemID].stackable)
 		{
 			SlotProperties temp = CheckIfIsInInvenory( itemID);
 			if( temp != null)

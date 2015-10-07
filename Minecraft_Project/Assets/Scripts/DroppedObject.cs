@@ -3,8 +3,7 @@ using System.Collections;
 
 public class DroppedObject : MonoBehaviour {
 
-	public int itemID;
-	public CubeProperties.itemIDs itemID2;
+	public CubeProperties.itemIDs itemID;
 	Transform child;
 	//bool cantBePickedUp = true;
 	// Use this for initialization

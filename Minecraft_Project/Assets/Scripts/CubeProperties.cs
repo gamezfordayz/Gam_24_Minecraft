@@ -20,7 +20,7 @@ public class CubeProperties : MonoBehaviour
         goldAxe, goldSword, ironAxe, ironLegs, ironChest, ironBoot, ironHelm, ironSword, ironPickAxe,
         leather, porkChop, rawChicken, rawPorkChop, rawSteak, spiderEye, steak, sticks,
         stoneAxe, stonePickAxe, stoneSword, stringThing, woodAxe, woodPickAxe, woodSword,
-        zombieSkin
+        zombieSkin , ironOre , goldOre, diamondOre , coalOre
     };
     public enum itemType
     {
@@ -38,10 +38,6 @@ public class CubeProperties : MonoBehaviour
         public Sprite inventorySprite;
         public bool stackable;
 
-        // the inventory srite can be the same as the item id index along with what to drop
-        //public Sprite inventorySprite;
-        //public int indexOfItemToDrop;
-        //public int numberToDrop;
     }
 
     void Awake()
@@ -80,50 +76,64 @@ public class CubeProperties : MonoBehaviour
     void InitializeStructs()
     {
         cubeProps stone = new cubeProps();
-        InitializeItemStruct(stone, itemIDs.stone, itemType.block, true, true, possibleDrops[0], defaultSprite, 1f, 6f);
+		InitializeItemStruct(stone, itemIDs.stone, itemType.block, true, true, possibleDrops[0], possibleSprites[47], 1f, 6f);
 
         cubeProps dirt = new cubeProps();
-        InitializeItemStruct(dirt, itemIDs.dirt, itemType.block, true, true, possibleDrops[1], defaultSprite, 2f, 6f);
+        InitializeItemStruct(dirt, itemIDs.dirt, itemType.block, true, true, possibleDrops[1], possibleSprites[50], 2f, 6f);
 
         cubeProps grass = new cubeProps();
-        InitializeItemStruct(grass, itemIDs.grass, itemType.block, true, true, possibleDrops[1], defaultSprite, 0f, 6f, 3f, 6f, 2f, 6f);
+		InitializeItemStruct(grass, itemIDs.grass, itemType.block, true, true, possibleDrops[1], possibleSprites[50], 0f, 6f, 3f, 6f, 2f, 6f);
 
         cubeProps cobble = new cubeProps();
-        InitializeItemStruct(cobble, itemIDs.cobble, itemType.block, true, true, possibleDrops[0], defaultSprite, 0f, 5f);
+		InitializeItemStruct(cobble, itemIDs.cobble, itemType.block, true, true, possibleDrops[0], possibleSprites[47], 0f, 5f);
 
         cubeProps sand = new cubeProps();
-        InitializeItemStruct(sand, itemIDs.sand, itemType.block, true, true, possibleDrops[0], defaultSprite, 2f, 5f);
+		InitializeItemStruct(sand, itemIDs.sand, itemType.block, true, true, possibleDrops[54], possibleSprites[54], 2f, 5f);
 
         cubeProps snowGrass = new cubeProps();
-        InitializeItemStruct(snowGrass, itemIDs.snowGrass, itemType.block, true, true, possibleDrops[0], defaultSprite, 2f, 2f, 4f, 2f, 2f, 6f);
+		InitializeItemStruct(snowGrass, itemIDs.snowGrass, itemType.block, true, true, possibleDrops[1], possibleSprites[50], 2f, 2f, 4f, 2f, 2f, 6f);
 
         cubeProps plank = new cubeProps();
-        InitializeItemStruct(plank, itemIDs.plank, itemType.block, true, true, possibleDrops[0], defaultSprite, 4f, 6f);
+		InitializeItemStruct(plank, itemIDs.plank, itemType.block, true, true, possibleDrops[56], possibleSprites[56], 4f, 6f);
 
         cubeProps wood = new cubeProps();
-        InitializeItemStruct(wood, itemIDs.wood, itemType.block, true, true, possibleDrops[0], defaultSprite, 5f, 5f, 4f, 5f, 5f, 5f);
+		InitializeItemStruct(wood, itemIDs.wood, itemType.block, true, true, possibleDrops[55], possibleSprites[55], 5f, 5f, 4f, 5f, 5f, 5f);
 
         cubeProps iron = new cubeProps();
-        InitializeItemStruct(iron, itemIDs.iron, itemType.block, true, true, possibleDrops[23], possibleSprites[22], 1f, 4f);
+        InitializeItemStruct(iron, itemIDs.iron, itemType.crafting, true, true, possibleDrops[23], possibleSprites[22], 0f,0f);
 
         cubeProps gold = new cubeProps();
-        InitializeItemStruct(gold, itemIDs.gold, itemType.block, true, true, possibleDrops[15], possibleSprites[14], 0f, 4f);
+        InitializeItemStruct(gold, itemIDs.gold, itemType.crafting, true, true, possibleDrops[15], possibleSprites[14], 0f, 0f);
 
         cubeProps diamond = new cubeProps();
-        InitializeItemStruct(diamond, itemIDs.diamond, itemType.block, true, false, possibleDrops[5], possibleSprites[4], 2f, 3f);
+        InitializeItemStruct(diamond, itemIDs.diamond, itemType.crafting, true, false, possibleDrops[5], possibleSprites[4], 0f,0f);
 
         cubeProps cactus = new cubeProps();
-        InitializeItemStruct(cactus, itemIDs.cactus, itemType.block, true, true, possibleDrops[0], defaultSprite, 5f, 2f, 6f, 2f, 7f, 2f);
+        InitializeItemStruct(cactus, itemIDs.cactus, itemType.block, true, true, possibleDrops[48], possibleSprites[46], 5f, 2f, 6f, 2f, 7f, 2f);
 
+		cubeProps ironOre = new cubeProps();
+		InitializeItemStruct (ironOre, itemIDs.ironOre, itemType.block, true, true, possibleDrops [53], possibleSprites [53], 1f, 4f);
+
+		cubeProps goldOre = new cubeProps();
+		InitializeItemStruct (goldOre, itemIDs.goldOre, itemType.block, true, true, possibleDrops [52], possibleSprites [52], 0f, 4f);
+
+		cubeProps diamondOre = new cubeProps();
+		InitializeItemStruct (diamondOre, itemIDs.diamondOre, itemType.block, true, true, possibleDrops [5], possibleSprites [4], 2f, 3f);
+
+		cubeProps coalOre = new cubeProps();
+		InitializeItemStruct (coalOre, itemIDs.coalOre, itemType.block, true, true, possibleDrops [4], possibleSprites [3], 2f, 4f);
+
+		cubeProps furnace = new cubeProps();
+		InitializeItemStruct (furnace, itemIDs.furnace, itemType.block, false, true, possibleDrops [51], possibleSprites [51], 13f, 3f , 13f,4f,15f,3f);
 
         cubeProps leaves = new cubeProps();
-        InitializeItemStruct(leaves, itemIDs.leaves, itemType.block, true, false, possibleDrops[0], defaultSprite, 4f, 3f);
+        InitializeItemStruct(leaves, itemIDs.leaves, itemType.block, true, true, possibleDrops[47], defaultSprite, 5f, 3f);
 
         cubeProps coal = new cubeProps();
-        InitializeItemStruct(coal, itemIDs.coal, itemType.block, true, false, possibleDrops[4], possibleSprites[4], 2f, 4f);
+        InitializeItemStruct(coal, itemIDs.coal, itemType.crafting, true, true, possibleDrops[4], possibleSprites[4], 0f, 0f);
 
         cubeProps craftingTable = new cubeProps();
-        InitializeItemStruct(craftingTable, itemIDs.craftingTable, itemType.crafting, false, true, possibleDrops[0], defaultSprite, 11f, 4f, 11f, 3f, 11f, 4f);
+        InitializeItemStruct(craftingTable, itemIDs.craftingTable, itemType.block, false, true, possibleDrops[49], possibleSprites[48], 11f, 4f, 11f, 3f, 11f, 4f);
 
         cubeProps apple = new cubeProps();
         InitializeItemStruct(apple, itemIDs.apple, itemType.food, true, true, possibleDrops[47], possibleSprites[0] ,  0f, 0f);
@@ -212,7 +222,7 @@ public class CubeProperties : MonoBehaviour
         cubeProps rawChicken = new cubeProps();
         InitializeItemStruct(rawChicken, itemIDs.rawChicken, itemType.food, true, true, possibleDrops[33], possibleSprites[32], 0f, 0f);
 
-      cubeProps rawPorkChop = new cubeProps();
+     	cubeProps rawPorkChop = new cubeProps();
         InitializeItemStruct(rawPorkChop, itemIDs.rawPorkChop, itemType.food, true, true, possibleDrops[34], possibleSprites[33], 0f, 0f);
 
         cubeProps steak = new cubeProps();
