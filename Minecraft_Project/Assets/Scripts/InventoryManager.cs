@@ -158,12 +158,13 @@ public class InventoryManager : MonoBehaviour {
 
 	public SlotProperties GetNextAvailableSlot(CubeProperties.itemIDs itemID)
 	{
-		foreach( SlotProperties temp in mainInventorySlots)
+
+		foreach (SlotProperties temp in activeInventorySlots)
 		{
 			if(temp.itemID == 0)
 				return temp;
 		}
-		foreach (SlotProperties temp in activeInventorySlots)
+		foreach( SlotProperties temp in mainInventorySlots)
 		{
 			if(temp.itemID == 0)
 				return temp;
@@ -173,14 +174,15 @@ public class InventoryManager : MonoBehaviour {
 
 	public SlotProperties CheckIfIsInInvenory(CubeProperties.itemIDs itemID)
 	{
-		foreach( SlotProperties temp in mainInventorySlots)
-		{
-			if(temp.itemID == itemID && !temp.atMaxStacks)
-				return temp;
-		}
+
 		foreach (SlotProperties temp in activeInventorySlots)
 		{
 			if(temp.itemID == itemID  && !temp.atMaxStacks)
+				return temp;
+		}
+		foreach( SlotProperties temp in mainInventorySlots)
+		{
+			if(temp.itemID == itemID && !temp.atMaxStacks)
 				return temp;
 		}
 		return null;
@@ -205,7 +207,7 @@ public class InventoryManager : MonoBehaviour {
 		}
 		return false;
 	}
-	// BUG HERE ... NUMBER ISNT BEING REDUCED
+
 	public bool AddItemToInventory(CubeProperties.itemIDs itemID , int number , SlotProperties slot)
 	{
 		if(CubeProperties.cubeProperties.itemDict[itemID].stackable)

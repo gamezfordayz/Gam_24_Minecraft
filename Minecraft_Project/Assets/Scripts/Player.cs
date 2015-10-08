@@ -3,7 +3,6 @@ using System.Collections;
 
 public class Player : MonoBehaviour 
 {
-	
 	float mouseSen = 5.0f;
 	float verticalRotation = 1.0f;
 	public float upDownRange = 60.0f;
@@ -13,21 +12,23 @@ public class Player : MonoBehaviour
 	public float jumpForce = 300f;
 	public float sprintSpeed = 10.0f;
 	
-	
-	
 	public float damage = 5f;
 	float timer;
 	public Transform myCamera;
 	public float blockPlaceRange = 5f;
 	public float blockDestroyRange = 3f;
 
-	public LayerMask blockLayer = 1;
+	MoveToActive moveToActive;
+	int indexOfSlot;
+	SlotProperties activeSlot;
+	CubeProperties.itemIDs acitveItemID;
 
-	
-	
-	
+	public AudioClip[] destroyBlockSounds;
+
 	void Start ()
 	{
+		moveToActive = MoveToActive.moveToActive;
+		indexOfSlot = moveToActive.index;
 		myCamera = transform.FindChild ("Main Camera");
 	}
 	
@@ -66,21 +67,16 @@ public class Player : MonoBehaviour
 		{
 			transform.Translate (Vector3.right * Time.deltaTime * speed); 
 		}
-		if (Input.GetKeyDown (KeyCode.Space) && grounded) 
-		{
-			if(gameObject.GetComponent<Rigidbody> ().velocity.y < 5f)	
+		if (Input.GetKeyDown (KeyCode.Space) && grounded) {
+			if (gameObject.GetComponent<Rigidbody> ().velocity.y < 5f)	
 				gameObject.GetComponent<Rigidbody> ().AddForce (Vector3.up * jumpForce);
 			grounded = false;
-
-
 		}
-//		if (gameObject.GetComponent<Rigidbody> ().velocity.y > 0 && startedJumping) {
-//			startedJumping = false;
-//			grounded = false;
-//		}
+		UpdateActiveSlot ();
 		if (Input.GetMouseButtonDown (1)) 
 		{
-			AddCubeToMesh();
+			if(CubeProperties.cubeProperties.itemDict[acitveItemID].itemType == CubeProperties.itemType.block && acitveItemID != 0)
+				AddCubeToMesh();
 		}
 		if (Input.GetMouseButtonDown (0)) 
 		{
@@ -89,8 +85,16 @@ public class Player : MonoBehaviour
 
 	}
 
+	void UpdateActiveSlot()
+	{
+		indexOfSlot = moveToActive.index;
+		activeSlot = InventoryManager.inventoryManager.activeInventorySlots [indexOfSlot];
+		acitveItemID = activeSlot.itemID;
+	}
+
 	void AddCubeToMesh()
 	{
+
 		RaycastHit hit;
 		if(Physics.Raycast(myCamera.transform.position,  myCamera.forward,out hit, blockPlaceRange))
 		{
@@ -108,7 +112,8 @@ public class Player : MonoBehaviour
 				x = Mathf.FloorToInt(hit.point.x - hit.transform.position.x);
 				y = Mathf.FloorToInt(hit.point.y - hit.transform.position.y);
 				z = Mathf.FloorToInt(hit.point.z - hit.transform.position.z);
-				hit.collider.gameObject.GetComponent<ChunkGenerator>().CreateCube(x,y,z , CubeProperties.itemIDs.wood);
+				hit.collider.gameObject.GetComponent<ChunkGenerator>().CreateCube(x,y,z , acitveItemID);
+				activeSlot.UpdateNumberOfItem(-1);
 			}
 		}
 	}
@@ -125,6 +130,7 @@ public class Player : MonoBehaviour
 				x = Mathf.FloorToInt(hit.point.x - hit.transform.position.x);
 				y = Mathf.FloorToInt(hit.point.y - hit.transform.position.y);
 				z = Mathf.FloorToInt(hit.point.z - hit.transform.position.z);
+				AudioSource.PlayClipAtPoint(destroyBlockSounds[Random.Range(0,9)],transform.position, .15f);
 				hit.collider.gameObject.GetComponent<ChunkGenerator>().DestroyCube(x,y,z);
 			}
 		}
