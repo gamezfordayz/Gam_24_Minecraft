@@ -22,31 +22,44 @@ using System.Text;
 
 public class Crafting : MonoBehaviour 
 {
-	public string fileName, fileLocation, tempData, tempLine;
 	public int[] craftingID;
 	public int outputID;
-	public string craftingIDs;
-	public TextAsset SaveData;
+	public int outputNumber;
+	public TextAsset CraftingRecipiesFile;
+	
+	string fileName, fileLocation, tempData, tempLine;
 
 	void Start () 
 	{
 		InitializeVariables ();
-		LoadXML ();
-		SaveXML ();
+		//LoadXML ();
+		//SaveXML ();
+	}
+
+	public int GetOutput (string input)
+	{
+		return GetCraftingData (input);
+	}
+
+	public int GetOutputNumber (string input)
+	{
+		return GetCraftingOutputNumber (input);
 	}
 
 	void InitializeVariables ()
 	{
 		craftingID = new int[9];
 		fileLocation = Application.dataPath; 
-		fileName = "SaveData.xml"; 
+		fileName = "CraftingRecipies.xml"; 
 	}
 
-	public void GetCraftingData()
+	int GetCraftingOutputNumber(string input)
 	{
 		string line;
+		string temp = input;
+		int tempOut;
+		
 		StreamReader reader = File.OpenText(fileLocation + "\\" +  fileName); 
-		string temp = "8 4 8 8 3 3 1 4 2 ";
 		using (reader)
 		{
 			do
@@ -60,7 +73,9 @@ public class Crafting : MonoBehaviour
 						//PUT IN COMPARE STRING THINGS
 						if (entries[i] == temp)
 						{
-							print(entries[i+1]);
+							//print(entries[i+1]);
+							int.TryParse(entries[i+2], out tempOut);
+							return tempOut;
 						}
 					}
 				}
@@ -68,19 +83,40 @@ public class Crafting : MonoBehaviour
 			while (line != null);
 			reader.Close();
 		}
+		return 1;
 	}
 
-	public void ButtonSaveNewXML()
+	int GetCraftingData(string input)
 	{
-		//SAVE CRAFTING ID ARRAYS
-		for(int i=0; i < 9; i++)
+		string line;
+		string temp = input;
+		int tempOut;
+
+		StreamReader reader = File.OpenText(fileLocation + "\\" +  fileName); 
+		using (reader)
 		{
-			craftingID[i] = (int)Random.Range(0,10);
-			craftingIDs += craftingID[i].ToString() + " ";
+			do
+			{
+				line = reader.ReadLine();
+				if(line != null)
+				{
+					string[] entries = line.Split(',');
+					for (int i=0; i<entries.Length;i++)
+					{
+						//PUT IN COMPARE STRING THINGS
+						if (entries[i] == temp)
+						{
+							//print(entries[i+1]);
+							int.TryParse(entries[i+1], out tempOut);
+							return tempOut;
+						}
+					}
+				}
+			}
+			while (line != null);
+			reader.Close();
 		}
-		outputID = (int)Random.Range (0, 5);
-		craftingIDs += "," + outputID.ToString() + "," + "\n";
-		SaveXML ();
+		return 0;
 	}
 
 	public void ButtonDeleteXML()
@@ -95,7 +131,7 @@ public class Crafting : MonoBehaviour
 		if (!file.Exists)
 		{
 			tempData = null;
-			SaveXML();
+			//SaveXML();
 		}
 		StreamReader reader = File.OpenText(fileLocation + "\\" +  fileName); 
 		string content = reader.ReadToEnd(); 
@@ -103,8 +139,9 @@ public class Crafting : MonoBehaviour
 		tempData = content;
 	} 
 	
-	public void SaveXML() 
+	public void SaveXML(string craftingIDs) 
 	{ 
+		LoadXML ();
 		StreamWriter writer; 
 		FileInfo file = new FileInfo(fileLocation + "\\" + fileName); 
 		writer = file.CreateText(); 
