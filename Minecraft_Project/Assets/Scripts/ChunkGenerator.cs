@@ -53,7 +53,13 @@ public class ChunkGenerator : MonoBehaviour {
 				for(int y = 0; y < tempHeight; y++ )
 				{
 					if(y < min )
+					{
 						cubes[x,y,z] = (byte)CubeProperties.itemIDs.stone;
+						if (x > 5 && z > 5 && x < world.chunkLength - 5 && z < world.chunkLength - 5)
+						{
+							GenerateOres(x,y,z);
+						}
+					}
 					else 
 					{
 						if(y == tempHeight -1 )
@@ -72,6 +78,210 @@ public class ChunkGenerator : MonoBehaviour {
 			}
 		}
 		hasBeenInitialized = true;
+	}
+
+	public void GenerateOres (int x, int y, int z)
+	{
+		if (y < 12 && y > 3)
+		{
+			if (0.005 > Random.value)
+			{
+				cubes [x,y,z] = (byte)CubeProperties.itemIDs.diamondOre;
+				if (0.2f > Random.value)
+				{
+					x += 1;
+				}
+				else if (0.3f > Random.value)
+				{
+					z += 1;
+				}
+				else if (0.4f > Random.value)
+				{
+					x -= 1;
+				}
+				else if (0.5f > Random.value)
+				{
+					z -= 1;
+				}
+				for (int i=0; i < 2; i++)
+				{
+					if (GetCube(x+i,y,z) == (byte)CubeProperties.itemIDs.stone)
+					{
+						cubes [x+i,y,z] = (byte)CubeProperties.itemIDs.diamondOre;
+					}
+					if (GetCube(x,y+i,z) == (byte)CubeProperties.itemIDs.stone)
+					{
+						cubes [x,y+i,z] = (byte)CubeProperties.itemIDs.diamondOre;
+					}
+					if (GetCube(x,y,z+i) == (byte)CubeProperties.itemIDs.stone)
+					{
+						cubes [x,y,z+i] = (byte)CubeProperties.itemIDs.diamondOre;
+					}
+					if (GetCube(x-i,y,z) == (byte)CubeProperties.itemIDs.stone)
+					{
+						cubes [x-i,y,z] = (byte)CubeProperties.itemIDs.diamondOre;
+					}
+					if (GetCube(x,y,z-i) == (byte)CubeProperties.itemIDs.stone)
+					{
+						cubes [x,y,z-i] = (byte)CubeProperties.itemIDs.diamondOre;
+					}
+					if (GetCube(x,y-i,z) == (byte)CubeProperties.itemIDs.stone)
+					{
+						cubes [x,y-i,z] = (byte)CubeProperties.itemIDs.diamondOre;
+					}
+				}
+			}
+		}
+		if (y > 3 && y < 24)
+		{
+			if (0.01 > Random.value)
+			{
+				cubes [x,y,z] = (byte)CubeProperties.itemIDs.goldOre;
+				if (0.2f > Random.value)
+				{
+					x += 1;
+				}
+				else if (0.3f > Random.value)
+				{
+					z += 1;
+				}
+				else if (0.4f > Random.value)
+				{
+					x -= 1;
+				}
+				else if (0.5f > Random.value)
+				{
+					z -= 1;
+				}
+				for (int i=0; i < 2; i++)
+				{
+					if (GetCube(x+i,y,z) == (byte)CubeProperties.itemIDs.stone)
+					{
+						cubes [x+i,y,z] = (byte)CubeProperties.itemIDs.goldOre;
+					}
+					if (GetCube(x,y+i,z) == (byte)CubeProperties.itemIDs.stone)
+					{
+						cubes [x,y+i,z] = (byte)CubeProperties.itemIDs.goldOre;
+					}
+					if (GetCube(x,y,z+i) == (byte)CubeProperties.itemIDs.stone)
+					{
+						cubes [x,y,z+i] = (byte)CubeProperties.itemIDs.goldOre;
+					}
+					if (GetCube(x-i,y,z) == (byte)CubeProperties.itemIDs.stone)
+					{
+						cubes [x-i,y,z] = (byte)CubeProperties.itemIDs.goldOre;
+					}
+					if (GetCube(x,y,z-i) == (byte)CubeProperties.itemIDs.stone)
+					{
+						cubes [x,y,z-i] = (byte)CubeProperties.itemIDs.goldOre;
+					}
+					if (GetCube(x,y-i,z) == (byte)CubeProperties.itemIDs.stone)
+					{
+						cubes [x,y-i,z] = (byte)CubeProperties.itemIDs.goldOre;
+					}
+				}
+			}
+		}
+		if (y > 3 && y < 42)
+		{
+			if (0.02 > Random.value)
+			{
+				cubes [x,y,z] = (byte)CubeProperties.itemIDs.ironOre;
+				if (0.2f > Random.value)
+				{
+					x += 1;
+				}
+				else if (0.3f > Random.value)
+				{
+					z += 1;
+				}
+				else if (0.4f > Random.value)
+				{
+					x -= 1;
+				}
+				else if (0.5f > Random.value)
+				{
+					z -= 1;
+				}
+				for (int i=0; i < 2; i++)
+				{
+					if (GetCube(x+i,y,z) == (byte)CubeProperties.itemIDs.stone)
+					{
+						cubes [x+i,y,z] = (byte)CubeProperties.itemIDs.ironOre;
+					}
+					if (GetCube(x,y+i,z) == (byte)CubeProperties.itemIDs.stone)
+					{
+						cubes [x,y+i,z] = (byte)CubeProperties.itemIDs.ironOre;
+					}
+					if (GetCube(x,y,z+i) == (byte)CubeProperties.itemIDs.stone)
+					{
+						cubes [x,y,z+i] = (byte)CubeProperties.itemIDs.ironOre;
+					}
+					if (GetCube(x-i,y,z) == (byte)CubeProperties.itemIDs.stone)
+					{
+						cubes [x-i,y,z] = (byte)CubeProperties.itemIDs.ironOre;
+					}
+					if (GetCube(x,y,z-i) == (byte)CubeProperties.itemIDs.stone)
+					{
+						cubes [x,y,z-i] = (byte)CubeProperties.itemIDs.ironOre;
+					}
+					if (GetCube(x,y-i,z) == (byte)CubeProperties.itemIDs.stone)
+					{
+						cubes [x,y-i,z] = (byte)CubeProperties.itemIDs.ironOre;
+					}
+				}
+			}
+			if (y > 3 && y < 50)
+			{
+				if (0.05 > Random.value)
+				{
+					cubes [x,y,z] = (byte)CubeProperties.itemIDs.coalOre;
+					if (0.2f > Random.value)
+					{
+						x += 1;
+					}
+					else if (0.3f > Random.value)
+					{
+						z += 1;
+					}
+					else if (0.4f > Random.value)
+					{
+						x -= 1;
+					}
+					else if (0.5f > Random.value)
+					{
+						z -= 1;
+					}
+					for (int i=0; i < 2; i++)
+					{
+						if (GetCube(x+i,y,z) == (byte)CubeProperties.itemIDs.stone)
+						{
+							cubes [x+i,y,z] = (byte)CubeProperties.itemIDs.coalOre;
+						}
+						if (GetCube(x,y+i,z) == (byte)CubeProperties.itemIDs.stone)
+						{
+							cubes [x,y+i,z] = (byte)CubeProperties.itemIDs.coalOre;
+						}
+						if (GetCube(x,y,z+i) == (byte)CubeProperties.itemIDs.stone)
+						{
+							cubes [x,y,z+i] = (byte)CubeProperties.itemIDs.coalOre;
+						}
+						if (GetCube(x-i,y,z) == (byte)CubeProperties.itemIDs.stone)
+						{
+							cubes [x-i,y,z] = (byte)CubeProperties.itemIDs.coalOre;
+						}
+						if (GetCube(x,y,z-i) == (byte)CubeProperties.itemIDs.stone)
+						{
+							cubes [x,y,z-i] = (byte)CubeProperties.itemIDs.coalOre;
+						}
+						if (GetCube(x,y-i,z) == (byte)CubeProperties.itemIDs.stone)
+						{
+							cubes [x,y-i,z] = (byte)CubeProperties.itemIDs.coalOre;
+						}
+					}
+				}
+			}
+		}
 	}
 
 	public void CreateTree(int x, int y, int z)
