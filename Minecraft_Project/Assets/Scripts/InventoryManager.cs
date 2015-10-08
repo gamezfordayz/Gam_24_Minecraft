@@ -17,11 +17,89 @@ public class InventoryManager : MonoBehaviour {
 
 	Coroutine resetSlot;
 
+	Crafting crafting;
+	
+	public GameObject craftingButton;
+	public GameObject inventoryCraft;
+
+	public bool masterCrafter = false;
+
 	void Awake () 
 	{
 		inventoryManager = this;
+		crafting = GetComponent<Crafting> ();
 	}
-
+	
+	void Update()
+	{
+		if (!inventoryCraft.activeInHierarchy)
+			CallCrafting (craftingTableInventorySlots, outputInventorySlots);
+		else
+			CallCrafting (craftingInventorySlots, outputInventorySlots);
+		
+		if (masterCrafter)
+			craftingButton.SetActive (true);
+		else
+			craftingButton.SetActive (false);
+	}
+	
+	public void CallCrafting(SlotProperties[] craftingInventorySlots, SlotProperties outputInventorySlots)
+	{
+		//pass in input
+		string inputString = null;
+		int output = 0;
+		int numberOfOutput = 1;
+		
+		for(int i=0; i<craftingInventorySlots.Length; i++)
+		{
+			inputString += ((int)craftingInventorySlots[i].itemID).ToString() + " ";
+			if (craftingInventorySlots.Length < 9)
+			{
+				if (i == 1)
+					inputString += "0 ";
+				if (i == 3)
+					inputString += "0 0 0 0 ";
+			}
+		}
+		
+		if (!masterCrafter)
+		{
+			output = crafting.GetOutput (inputString);
+			numberOfOutput = crafting.GetOutputNumber (inputString);
+			outputInventorySlots.UpdateSlot((CubeProperties.itemIDs)output , numberOfOutput);
+//			outputInventorySlots.itemID = (CubeProperties.itemIDs)output;
+//			outputInventorySlots.numberOfItem = (byte)numberOfOutput;
+		}
+	}
+	
+	public void SaveXML()
+	{
+		if (!inventoryCraft.activeInHierarchy)
+			SaveXMLButton (craftingTableInventorySlots, outputInventorySlots);
+		else
+			SaveXMLButton (craftingInventorySlots, outputInventorySlots);
+	}
+	
+	void SaveXMLButton (SlotProperties[] craftingInventorySlots, SlotProperties outputInventorySlots)
+	{
+		string craftingIDs = null;
+		for(int i=0; i<craftingInventorySlots.Length; i++)
+		{
+			craftingIDs += ((int)craftingInventorySlots[i].itemID).ToString() + " ";
+			
+			if (craftingInventorySlots.Length < 9)
+			{
+				if (i == 1)
+					craftingIDs += "0 ";
+				if (i == 3)
+					craftingIDs += "0 0 0 0 ";
+			}
+		}
+		craftingIDs += "," + ((int)outputInventorySlots.itemID).ToString() + ",";
+		craftingIDs += outputInventorySlots.numberOfItem + "," + "\n";
+		
+		crafting.SaveXML (craftingIDs);
+	}
 	
 	public void AddOneToCrafting(SlotProperties slot)
 	{
@@ -49,7 +127,6 @@ public class InventoryManager : MonoBehaviour {
 			{
 				CubeProperties.itemIDs temp = firstSwap.itemID;
 				int tempNum = firstSwap.numberOfItem;
-				Debug.Log("Swaped Was Called");
 				firstSwap.UpdateSlot(slot.itemID , slot.numberOfItem);
 				slot.UpdateSlot(temp , tempNum);
 			}
