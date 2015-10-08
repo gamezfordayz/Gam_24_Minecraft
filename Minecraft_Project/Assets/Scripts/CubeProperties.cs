@@ -130,7 +130,7 @@ public class CubeProperties : MonoBehaviour
         InitializeItemStruct(leaves, itemIDs.leaves, itemType.block, true, true, possibleDrops[47], defaultSprite, 5f, 3f);
 
         cubeProps coal = new cubeProps();
-        InitializeItemStruct(coal, itemIDs.coal, itemType.crafting, true, true, possibleDrops[4], possibleSprites[4], 0f, 0f);
+        InitializeItemStruct(coal, itemIDs.coal, itemType.crafting, true, true, possibleDrops[4], possibleSprites[3], 0f, 0f);
 
         cubeProps craftingTable = new cubeProps();
         InitializeItemStruct(craftingTable, itemIDs.craftingTable, itemType.block, false, true, possibleDrops[49], possibleSprites[48], 11f, 4f, 11f, 3f, 11f, 4f);

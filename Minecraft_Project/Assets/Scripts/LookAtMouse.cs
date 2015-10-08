@@ -5,6 +5,7 @@ public class LookAtMouse : MonoBehaviour {
 	Vector3 mousePos;
 	Vector3 lookAt;
 	public float mouseDistance = 0f;
+	public Camera cam;
 	//float verticalRotation = 1f;
 	// Use this for initialization
 	void Start () {
@@ -15,11 +16,13 @@ public class LookAtMouse : MonoBehaviour {
 	void Update () {
 		if (OpenMenus.inMenu) {
 			mousePos = Input.mousePosition;
-			mousePos.z = mouseDistance;
+			mousePos.z = 1f;
 			lookAt = Camera.main.ScreenToWorldPoint (mousePos);
 			lookAt.x = -lookAt.x;
 			transform.LookAt (lookAt);
 		}
+		else
+			transform.LookAt (cam.transform.position);
 //		else 
 //		{
 //
