@@ -57,15 +57,12 @@ public class ChunkGenerator : MonoBehaviour {
 					else 
 					{
 						if(y == tempHeight -1 )
-<<<<<<< HEAD
 						{
 							if (y < world.chunkHeight-10 && Vector3.Distance(treePos, new Vector3(x,y,z)) > 20 && x > 6 && z > 6 && x < world.chunkLength - 6 && z < world.chunkLength - 6)
 							{
 								CreateTree(x,y,z);
 							}
-=======
 
->>>>>>> 072d80c371e49510ba20a35e0b53d36561fcf4b2
 							cubes[x,y,z] = (byte)chunkProp.defaultGrass;
 						}
 						else
