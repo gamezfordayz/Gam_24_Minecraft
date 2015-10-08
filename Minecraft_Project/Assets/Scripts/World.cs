@@ -36,12 +36,7 @@ public class World : MonoBehaviour
 		StartCoroutine (CheckForSpawn());
 		StartCoroutine (SpawnChunk());
 	}
-
-	void Update()
-	{
-
-	}
-
+	
 	IEnumerator CheckForSpawn()
 	{
 		while (true) 

@@ -56,6 +56,7 @@ public class ChunkGenerator : MonoBehaviour {
 						cubes[x,y,z] = (byte)CubeProperties.itemIDs.stone;
 					else 
 						if(y == tempHeight -1 )
+
 							cubes[x,y,z] = (byte)chunkProp.defaultGrass;
 						else
 						cubes[x,y,z] = (byte)chunkProp.defaultCube;
