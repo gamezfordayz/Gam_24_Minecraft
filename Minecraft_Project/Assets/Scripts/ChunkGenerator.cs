@@ -21,8 +21,8 @@ public class ChunkGenerator : MonoBehaviour {
 	CubeProperties cubeType;
 	public bool hasBeenInitialized = false;
 	bool firstPass = true;
-
-
+	bool treeBranchEnd = false;
+	Vector3 treePos = Vector3.zero;
 
 	// Use this for initialization
 	void Start () {
@@ -55,14 +55,217 @@ public class ChunkGenerator : MonoBehaviour {
 					if(y < min )
 						cubes[x,y,z] = (byte)CubeProperties.itemIDs.stone;
 					else 
+					{
 						if(y == tempHeight -1 )
+						{
+							if (y < world.chunkHeight-10 && Vector3.Distance(treePos, new Vector3(x,y,z)) > 20 && x > 6 && z > 6 && x < world.chunkLength - 6 && z < world.chunkLength - 6)
+							{
+								CreateTree(x,y,z);
+							}
 							cubes[x,y,z] = (byte)chunkProp.defaultGrass;
+						}
 						else
-						cubes[x,y,z] = (byte)chunkProp.defaultCube;
+							cubes[x,y,z] = (byte)chunkProp.defaultCube;
+					}
 				}
 			}
 		}
 		hasBeenInitialized = true;
+	}
+
+	public void CreateTree(int x, int y, int z)
+	{
+		int temp = 0;
+		int tx = x;
+		int tz = z;
+
+		treeBranchEnd = false;
+		if (0.01f > Random.value)
+		{
+			for (int i=0; i<Random.Range(3,10); i++)
+			{
+				cubes [x, y + i, z] = (byte)chunkProp.defaultTree;
+				temp = y + i;
+			}
+			GetBranches(tx,temp,tz,Random.value);
+			GetSecondBranches(x,temp,z,Random.value);
+
+			if (cubes[x,temp,z] == (byte)CubeProperties.itemIDs.wood)
+			{
+				for (int i=0; i < 2; i++)
+				{
+					if (GetCube(x+i,temp,z) == 0)
+					{
+						cubes [x+i,temp,z] = (byte)CubeProperties.itemIDs.leaves;
+					}
+					if (GetCube(x,temp+i,z) == 0)
+					{
+						cubes [x,temp+i,z] = (byte)CubeProperties.itemIDs.leaves;
+					}
+					if (GetCube(x,temp,z+i) == 0)
+					{
+						cubes [x,temp,z+i] = (byte)CubeProperties.itemIDs.leaves;
+					}
+					if (GetCube(x-i,temp,z) == 0)
+					{
+						cubes [x-i,temp,z] = (byte)CubeProperties.itemIDs.leaves;
+					}
+					if (GetCube(x,temp-i,z) == 0)
+					{
+						cubes [x,temp-i,z] = (byte)CubeProperties.itemIDs.leaves;
+					}
+					if (GetCube(x,temp,z-i) == 0)
+					{
+						cubes [x,temp,z-i] = (byte)CubeProperties.itemIDs.leaves;
+					}
+				}
+			}
+			treePos = new Vector3(x,y,z);
+		}
+	}
+
+	public void GetSecondBranches(int x, int y, int z, float random)
+	{
+		bool move = false;
+		
+		if (0.01f > random)
+		{
+			treeBranchEnd = true;
+		}
+
+		if (0.2f > Random.value)
+		{
+			x += 1;
+			move = true;
+		}
+		else if (0.3f > Random.value)
+		{
+			z += 1;
+			move = true;
+		}
+		else if (0.4f > Random.value)
+		{
+			x -= 1;
+			move = true;
+		}
+		else if (0.5f > Random.value)
+		{
+			z -= 1;
+			move = true;
+		}
+		
+		if (move)
+			y += 1;
+		cubes [x, y, z] = (byte)chunkProp.defaultTree;
+		if (move)
+			cubes [x, y-1, z] = (byte)chunkProp.defaultTree;
+		
+		if (cubes[x,y,z] == (byte)CubeProperties.itemIDs.wood)
+		{
+			for (int i=0; i < 2; i++)
+			{
+				if (GetCube(x+i,y,z) == 0)
+				{
+					cubes [x+i,y,z] = (byte)CubeProperties.itemIDs.leaves;
+				}
+				if (GetCube(x,y+i,z) == 0)
+				{
+					cubes [x,y+i,z] = (byte)CubeProperties.itemIDs.leaves;
+				}
+				if (GetCube(x,y,z+i) == 0)
+				{
+					cubes [x,y,z+i] = (byte)CubeProperties.itemIDs.leaves;
+				}
+				if (GetCube(x-i,y,z) == 0)
+				{
+					cubes [x-i,y,z] = (byte)CubeProperties.itemIDs.leaves;
+				}
+				if (GetCube(x,y,z-i) == 0)
+				{
+					cubes [x,y,z-i] = (byte)CubeProperties.itemIDs.leaves;
+				}
+				if (GetCube(x,y-i,z) == 0)
+				{
+					cubes [x,y-i,z] = (byte)CubeProperties.itemIDs.leaves;
+				}
+			}
+		}
+		if (!treeBranchEnd)
+		{
+			GetBranches (x,y,z,random-0.1f);
+		}
+	}
+
+	public void GetBranches(int x, int y, int z, float random)
+	{
+		bool move = false;
+
+		if (0.01f > random)
+		{
+			treeBranchEnd = true;
+		}
+
+		if (0.2f > Random.value)
+		{
+			x -= 1;
+			move = true;
+		}
+		else if (0.3f > Random.value)
+		{
+			z -= 1;
+			move = true;
+		}
+		else if (0.4f > Random.value)
+		{
+			x += 1;
+			move = true;
+		}
+		else if (0.5f > Random.value)
+		{
+			z += 1;
+			move = true;
+		}
+
+		if (move)
+			y += 1;
+		cubes [x, y, z] = (byte)chunkProp.defaultTree;
+		if (move)
+			cubes [x, y-1, z] = (byte)chunkProp.defaultTree;
+
+		if (cubes[x,y,z] == (byte)CubeProperties.itemIDs.wood)
+		{
+			for (int i=0; i < 2; i++)
+			{
+				if (GetCube(x+i,y,z) == 0)
+				{
+					cubes [x+i,y,z] = (byte)CubeProperties.itemIDs.leaves;
+				}
+				if (GetCube(x,y+i,z) == 0)
+				{
+					cubes [x,y+i,z] = (byte)CubeProperties.itemIDs.leaves;
+				}
+				if (GetCube(x,y,z+i) == 0)
+				{
+					cubes [x,y,z+i] = (byte)CubeProperties.itemIDs.leaves;
+				}
+				if (GetCube(x-i,y,z) == 0)
+				{
+					cubes [x-i,y,z] = (byte)CubeProperties.itemIDs.leaves;
+				}
+				if (GetCube(x,y,z-i) == 0)
+				{
+					cubes [x,y,z-i] = (byte)CubeProperties.itemIDs.leaves;
+				}
+				if (GetCube(x,y-i,z) == 0)
+				{
+					cubes [x,y-i,z] = (byte)CubeProperties.itemIDs.leaves;
+				}
+			}
+		}
+		if (!treeBranchEnd)
+		{
+			GetBranches (x,y,z,random-0.1f);
+		}
 	}
 
 	public void CreateVisualMesh()
