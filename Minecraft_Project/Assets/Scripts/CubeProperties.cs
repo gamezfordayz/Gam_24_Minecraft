@@ -20,7 +20,7 @@ public class CubeProperties : MonoBehaviour
         goldAxe, goldSword, ironAxe, ironLegs, ironChest, ironBoot, ironHelm, ironSword, ironPickAxe,
         leather, porkChop, rawChicken, rawPorkChop, rawSteak, spiderEye, steak, sticks,
         stoneAxe, stonePickAxe, stoneSword, stringThing, woodAxe, woodPickAxe, woodSword,
-        zombieSkin , ironOre , goldOre, diamondOre , coalOre
+        zombieSkin , ironOre , goldOre, diamondOre , coalOre , bedrock
     };
     public enum itemType
     {
@@ -260,6 +260,9 @@ public class CubeProperties : MonoBehaviour
 
         cubeProps zombieSkin = new cubeProps();
         InitializeItemStruct(zombieSkin, itemIDs.zombieSkin, itemType.food, true, true, possibleDrops[46], possibleSprites[45], 0f, 0f);
+
+		cubeProps bedrock = new cubeProps();
+		InitializeItemStruct(bedrock, itemIDs.bedrock, itemType.block, false, false, defaultGameObject, defaultSprite, 1f, 5f);
 
     }
 

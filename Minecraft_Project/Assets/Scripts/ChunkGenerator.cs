@@ -59,6 +59,8 @@ public class ChunkGenerator : MonoBehaviour {
 						{
 							GenerateOres(x,y,z);
 						}
+						if (y == 0)
+							cubes[x,y,z] = (byte)CubeProperties.itemIDs.bedrock;
 					}
 					else 
 					{
