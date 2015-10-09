@@ -8,7 +8,7 @@ public class InventoryManager : MonoBehaviour {
 	public SlotProperties[] craftingInventorySlots = new SlotProperties[4];
 	public SlotProperties outputInventorySlots;
 	public SlotProperties[] craftingTableInventorySlots = new SlotProperties[9];
-	public SlotProperties[] furnaceInventorySlots = new SlotProperties[9];
+	public SlotProperties[] furnaceInventorySlots = new SlotProperties[2];
 
 
 	SlotProperties firstSwap;
@@ -21,6 +21,8 @@ public class InventoryManager : MonoBehaviour {
 	
 	public GameObject craftingButton;
 	public GameObject inventoryCraft;
+	public GameObject GapFillerFurnace;
+	public GameObject GapFillerCrafting;
 
 	public bool masterCrafter = false;
 
@@ -32,10 +34,12 @@ public class InventoryManager : MonoBehaviour {
 	
 	void Update()
 	{
-		if (!inventoryCraft.activeInHierarchy)
-			CallCrafting (craftingTableInventorySlots, outputInventorySlots);
-		else
+		if (inventoryCraft.activeInHierarchy)
 			CallCrafting (craftingInventorySlots, outputInventorySlots);
+		else if (GapFillerCrafting.activeInHierarchy)
+			CallCrafting (craftingTableInventorySlots, outputInventorySlots);
+		else if (GapFillerFurnace.activeInHierarchy)
+			CallCrafting (furnaceInventorySlots, outputInventorySlots);
 		
 		if (masterCrafter)
 			craftingButton.SetActive (true);
@@ -53,7 +57,7 @@ public class InventoryManager : MonoBehaviour {
 		for(int i=0; i<craftingInventorySlots.Length; i++)
 		{
 			inputString += ((int)craftingInventorySlots[i].itemID).ToString() + " ";
-			if (craftingInventorySlots.Length < 9)
+			if (craftingInventorySlots.Length == 4)
 			{
 				if (i == 1)
 					inputString += "0 ";
@@ -74,10 +78,12 @@ public class InventoryManager : MonoBehaviour {
 	
 	public void SaveXML()
 	{
-		if (!inventoryCraft.activeInHierarchy)
-			SaveXMLButton (craftingTableInventorySlots, outputInventorySlots);
-		else
+		if (inventoryCraft.activeInHierarchy)
 			SaveXMLButton (craftingInventorySlots, outputInventorySlots);
+		else if (GapFillerCrafting.activeInHierarchy)
+			SaveXMLButton (craftingTableInventorySlots, outputInventorySlots);
+		else if (GapFillerFurnace.activeInHierarchy)
+			SaveXMLButton (furnaceInventorySlots, outputInventorySlots);
 	}
 	
 	void SaveXMLButton (SlotProperties[] craftingInventorySlots, SlotProperties outputInventorySlots)
@@ -87,7 +93,7 @@ public class InventoryManager : MonoBehaviour {
 		{
 			craftingIDs += ((int)craftingInventorySlots[i].itemID).ToString() + " ";
 			
-			if (craftingInventorySlots.Length < 9)
+			if (craftingInventorySlots.Length == 4)
 			{
 				if (i == 1)
 					craftingIDs += "0 ";
