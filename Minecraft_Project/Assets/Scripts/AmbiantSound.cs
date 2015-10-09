@@ -12,23 +12,8 @@ public class AmbiantSound : MonoBehaviour {
 
 	void Start () 
 	{
-		audioScource.clip = normalSound;
+		audioScource.clip = desertSound;
 		audioScource.Play ();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (transform.position.y < 30f ) 
-		{
-			audioScource.clip = caveSound;
-			audioScource.volume = 1f;
-			if(!audioScource.isPlaying)
-				audioScource.Play();
-		}
-		else
-		{
-			audioScource.clip = normalSound;
-			audioScource.volume = normalVolume;
-		}
-	}
+
 }

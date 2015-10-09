@@ -30,6 +30,8 @@ public class Player : MonoBehaviour
 
 	void Start ()
 	{
+		Cursor.lockState = CursorLockMode.Locked;
+		Cursor.visible = false;
 		moveToActive = MoveToActive.moveToActive;
 		indexOfSlot = moveToActive.index;
 		myCamera = transform.FindChild ("Main Camera");

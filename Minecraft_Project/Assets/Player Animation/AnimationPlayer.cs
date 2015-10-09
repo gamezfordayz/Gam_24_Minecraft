@@ -20,10 +20,11 @@ public class AnimationPlayer : MonoBehaviour
 	{
 		float move = Input.GetAxis ("Vertical");
 		anim.SetFloat ("Speed", move);
-		anim.SetBool ("Hit", Input.GetMouseButton (0) || Input.GetMouseButton (1));
-<<<<<<< HEAD
+		if(gameObject.name == "minecraft_arm")
+			anim.SetBool ("Hit", Input.GetMouseButton (0) || Input.GetMouseButton (1));
 
-=======
+
+
 		//anim.SetBool ("Hit", Input.GetMouseButton (1));
 //		anim.SetBool ("Hit", Input.GetMouseButton (0));
 //		anim.SetBool ("Hit", Input.GetMouseButton (1));
@@ -33,6 +34,6 @@ public class AnimationPlayer : MonoBehaviour
 //		{
 //			anim.SetTrigger (jumpHash);
 //		}
->>>>>>> origin/master
+
 	}
 }
