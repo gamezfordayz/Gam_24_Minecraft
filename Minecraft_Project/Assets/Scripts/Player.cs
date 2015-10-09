@@ -18,6 +18,8 @@ public class Player : MonoBehaviour
 	public float blockPlaceRange = 5f;
 	public float blockDestroyRange = 3f;
 
+	public GameObject highlightFab;
+
 	MoveToActive moveToActive;
 	int indexOfSlot;
 	SlotProperties activeSlot;
@@ -81,6 +83,22 @@ public class Player : MonoBehaviour
 		if (Input.GetMouseButtonDown (0)) 
 		{
 			DestroyCubeFromMesh();
+		}
+
+		RaycastHit hit;
+		if (Physics.Raycast (myCamera.transform.position, myCamera.forward, out hit, blockPlaceRange)) {
+			if (hit.collider.gameObject.tag == "World") {
+				Vector3 pos = hit.point - hit.normal / 2;
+				pos.x = Mathf.Floor (pos.x) + 0.5f;
+				pos.y = Mathf.Floor (pos.y) + 0.5f;
+				pos.z = Mathf.Floor (pos.z) + 0.5f;
+
+
+				highlightFab.transform.position = pos;
+			}
+		}
+		else {
+			highlightFab.transform.position  = Vector3.zero;
 		}
 
 	}
