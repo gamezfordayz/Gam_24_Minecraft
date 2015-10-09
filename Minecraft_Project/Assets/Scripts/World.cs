@@ -6,7 +6,7 @@ public class World : MonoBehaviour
 {
 	public static World currentWorld;
 	public int chunkLength = 20 , chunkHeight = 140, groundOffset  = 40 ,seed = 0;
-	public float offsetValueX ,offsetValueZ = 0;
+	public float offsetValueX , offsetValueZ , offsetValueY = 0;
 	public List<Transform> chunks;
 	public GameObject player = null;
 	public GameObject chunkFab = null;
@@ -27,6 +27,7 @@ public class World : MonoBehaviour
 		}
 		Random.seed = seed;
 		offsetValueX = Random.Range(1 , 10000);
+		offsetValueY = Random.Range (1, 10000);
 		offsetValueZ = Random.Range(1 , 10000);
 
 	}
@@ -108,6 +109,8 @@ public class World : MonoBehaviour
 	{
 		foreach (Transform temp in chunks) 
 		{
+			if(!temp.gameObject.activeInHierarchy)
+				continue;
 			if(Vector2.Distance( new Vector2(player.transform.position.x, player.transform.position.z) , new Vector2(temp.position.x, temp.position.z)) > deSpawnDistance)
 				temp.gameObject.SetActive(false);
 		}

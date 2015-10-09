@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
 	MoveToActive moveToActive;
 	int indexOfSlot;
 	SlotProperties activeSlot;
-	CubeProperties.itemIDs acitveItemID;
+	public CubeProperties.itemIDs acitveItemID;
 
 	public AudioClip[] destroyBlockSounds;
 
@@ -75,8 +75,7 @@ public class Player : MonoBehaviour
 		UpdateActiveSlot ();
 		if (Input.GetMouseButtonDown (1)) 
 		{
-			if(CubeProperties.cubeProperties.itemDict[acitveItemID].itemType == CubeProperties.itemType.block && acitveItemID != 0)
-				AddCubeToMesh();
+			CheckWhatWasHitRightClick();
 		}
 		if (Input.GetMouseButtonDown (0)) 
 		{
@@ -91,30 +90,56 @@ public class Player : MonoBehaviour
 		activeSlot = InventoryManager.inventoryManager.activeInventorySlots [indexOfSlot];
 		acitveItemID = activeSlot.itemID;
 	}
+	
 
-	void AddCubeToMesh()
+	void CheckWhatWasHitRightClick()
 	{
-
 		RaycastHit hit;
 		if(Physics.Raycast(myCamera.transform.position,  myCamera.forward,out hit, blockPlaceRange))
 		{
-			hit.point += hit.normal/2;
-			Collider[] hitColliders =  Physics.OverlapSphere(hit.point , 0.5f);
-			foreach (Collider temp in hitColliders)
-			{
-				if(temp.tag == "Player")
-					return;
-			}
 			if(hit.collider.gameObject.tag == "World")
 			{
 				int x,y,z;
-
+				hit.point -= hit.normal/2;
 				x = Mathf.FloorToInt(hit.point.x - hit.transform.position.x);
 				y = Mathf.FloorToInt(hit.point.y - hit.transform.position.y);
 				z = Mathf.FloorToInt(hit.point.z - hit.transform.position.z);
-				hit.collider.gameObject.GetComponent<ChunkGenerator>().CreateCube(x,y,z , acitveItemID);
-				activeSlot.UpdateNumberOfItem(-1);
+				CubeProperties.itemIDs cube = (CubeProperties.itemIDs)hit.collider.gameObject.GetComponent<ChunkGenerator>().GetCube(x,y,z);
+				if(cube == CubeProperties.itemIDs.craftingTable || cube == CubeProperties.itemIDs.furnace)
+				{
+					if(cube == CubeProperties.itemIDs.craftingTable)
+						OpenMenus.openMenu.OpenCrafting();
+					if(cube == CubeProperties.itemIDs.furnace)
+						OpenMenus.openMenu.OpenFurnace();
+				}
+				else 
+				{
+					hit.point += hit.normal/2;
+					AddCubeToMesh(hit);
+				}
 			}
+		}
+	}
+
+	void AddCubeToMesh(RaycastHit hit)
+	{
+		hit.point += hit.normal/2;
+		Collider[] hitColliders =  Physics.OverlapSphere(hit.point , 0.5f);
+		foreach (Collider temp in hitColliders)
+		{
+			if(temp.tag == "Player")
+				return;
+		}
+		if(hit.collider.gameObject.tag == "World")
+		{
+			
+			int x,y,z;
+			
+			x = Mathf.FloorToInt(hit.point.x - hit.transform.position.x);
+			y = Mathf.FloorToInt(hit.point.y - hit.transform.position.y);
+			z = Mathf.FloorToInt(hit.point.z - hit.transform.position.z);
+			hit.collider.gameObject.GetComponent<ChunkGenerator>().CreateCube(x,y,z , acitveItemID);
+			activeSlot.UpdateNumberOfItem(-1);
 		}
 	}
 

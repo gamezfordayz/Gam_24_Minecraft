@@ -124,7 +124,7 @@ public class CubeProperties : MonoBehaviour
 		InitializeItemStruct (coalOre, itemIDs.coalOre, itemType.block, true, true, possibleDrops [4], possibleSprites [3], 2f, 4f);
 
 		cubeProps furnace = new cubeProps();
-		InitializeItemStruct (furnace, itemIDs.furnace, itemType.block, false, true, possibleDrops [51], possibleSprites [51], 13f, 3f , 13f,4f,15f,3f);
+		InitializeItemStruct (furnace, itemIDs.furnace, itemType.block, false, true, possibleDrops [51], possibleSprites [51], 14f,3f, 13f,3f, 15f,3f);
 
         cubeProps leaves = new cubeProps();
         InitializeItemStruct(leaves, itemIDs.leaves, itemType.block, true, true, possibleDrops[47], defaultSprite, 5f, 3f);

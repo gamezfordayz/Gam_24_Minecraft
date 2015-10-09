@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using SimplexNoise;
+
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
@@ -55,6 +57,7 @@ public class ChunkGenerator : MonoBehaviour {
 					if(y < min )
 					{
 						cubes[x,y,z] = (byte)CubeProperties.itemIDs.stone;
+						GenerateCaves(x,y,z);
 						if (x > 5 && z > 5 && x < world.chunkLength - 5 && z < world.chunkLength - 5)
 						{
 							GenerateOres(x,y,z);
@@ -80,6 +83,11 @@ public class ChunkGenerator : MonoBehaviour {
 			}
 		}
 		hasBeenInitialized = true;
+	}
+
+	public void GenerateCaves(int x , int y, int z)
+	{
+		//if the x returns 
 	}
 
 	public void GenerateOres (int x, int y, int z)
