@@ -20,8 +20,13 @@ public class AnimationPlayer : MonoBehaviour
 	{
 		float move = Input.GetAxis ("Vertical");
 		anim.SetFloat ("Speed", move);
+<<<<<<< HEAD
 		anim.SetBool ("Hit", Input.GetMouseButton (0) || Input.GetMouseButton (1));
 		//anim.SetBool ("Hit", Input.GetMouseButton (1));
+=======
+//		anim.SetBool ("Hit", Input.GetMouseButton (0));
+//		anim.SetBool ("Hit", Input.GetMouseButton (1));
+>>>>>>> origin/master
 
 //		AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo (0);
 //		if (Input.GetKeyDown (KeyCode.Space) && stateInfo.nameHash == runStateHash)
