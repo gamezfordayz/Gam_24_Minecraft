@@ -19,11 +19,13 @@ public class Player : MonoBehaviour
 	public float blockDestroyRange = 3f;
 
 	public GameObject highlightFab;
+	public GameObject[] activeToolArms = new GameObject[13];
 
 	MoveToActive moveToActive;
 	int indexOfSlot;
 	SlotProperties activeSlot;
 	public CubeProperties.itemIDs activeItemID;
+	CubeProperties.itemIDs tempItemID;
 	CubeProperties.itemType activeItemType;
 
 	public AudioClip[] destroyBlockSounds;
@@ -40,7 +42,18 @@ public class Player : MonoBehaviour
 	void Update () 
 	{
 		if (OpenMenus.inMenu)
+		{
+			Cursor.lockState = CursorLockMode.None;
+			Cursor.visible = true;
 			return;
+		}
+		else 
+		{
+			Cursor.lockState = CursorLockMode.Locked;
+			Cursor.visible = false;
+		}
+		tempItemID = activeItemID;
+
 		float rotLeftRight = Input.GetAxis ("Mouse X") * mouseSen;
 		transform.Rotate (0, rotLeftRight, 0);
 		
@@ -102,7 +115,8 @@ public class Player : MonoBehaviour
 		else {
 			highlightFab.transform.position  = Vector3.zero;
 		}
-
+		if (activeItemID != tempItemID)
+			ShowActiveTool ();
 	}
 
 	void UpdateActiveSlot()
@@ -196,5 +210,113 @@ public class Player : MonoBehaviour
 			grounded = true;
 		}
 	}
-	
+	void ShowActiveTool()
+	{
+		if (activeItemID == CubeProperties.itemIDs.diamondAxe)
+		{
+			for (int i = 0; i<activeToolArms.Length; i++)
+			{
+				activeToolArms[i].SetActive(false);
+			}
+			activeToolArms[1].SetActive(true);
+		}
+		else if (activeItemID == CubeProperties.itemIDs.goldAxe)
+		{
+			for (int i = 0; i<activeToolArms.Length; i++)
+			{
+				activeToolArms[i].SetActive(false);
+			}
+			activeToolArms[2].SetActive(true);
+		}
+		else if (activeItemID == CubeProperties.itemIDs.ironAxe)
+		{
+			for (int i = 0; i<activeToolArms.Length; i++)
+			{
+				activeToolArms[i].SetActive(false);
+			}
+			activeToolArms[3].SetActive(true);
+		}
+		else if (activeItemID == CubeProperties.itemIDs.woodAxe)
+		{
+			for (int i = 0; i<activeToolArms.Length; i++)
+			{
+				activeToolArms[i].SetActive(false);
+			}
+			activeToolArms[4].SetActive(true);
+		}
+
+		else if (activeItemID == CubeProperties.itemIDs.diamondPickAxe)
+		{
+			for (int i = 0; i<activeToolArms.Length; i++)
+			{
+				activeToolArms[i].SetActive(false);
+			}
+			activeToolArms[5].SetActive(true);
+		}
+		else if (activeItemID == CubeProperties.itemIDs.goldPickAxe)
+		{
+			for (int i = 0; i<activeToolArms.Length; i++)
+			{
+				activeToolArms[i].SetActive(false);
+			}
+			activeToolArms[6].SetActive(true);
+		}
+		else if (activeItemID == CubeProperties.itemIDs.ironPickAxe)
+		{
+			for (int i = 0; i<activeToolArms.Length; i++)
+			{
+				activeToolArms[i].SetActive(false);
+			}
+			activeToolArms[7].SetActive(true);
+		}
+		else if (activeItemID == CubeProperties.itemIDs.woodPickAxe)
+		{
+			for (int i = 0; i<activeToolArms.Length; i++)
+			{
+				activeToolArms[i].SetActive(false);
+			}
+			activeToolArms[8].SetActive(true);
+		}
+		else if (activeItemID == CubeProperties.itemIDs.diamondSword)
+		{
+			for (int i = 0; i<activeToolArms.Length; i++)
+			{
+				activeToolArms[i].SetActive(false);
+			}
+			activeToolArms[9].SetActive(true);
+		}
+		else if (activeItemID == CubeProperties.itemIDs.goldSword)
+		{
+			for (int i = 0; i<activeToolArms.Length; i++)
+			{
+				activeToolArms[i].SetActive(false);
+			}
+			activeToolArms[10].SetActive(true);
+		}
+		else if (activeItemID == CubeProperties.itemIDs.ironSword)
+		{
+			for (int i = 0; i<activeToolArms.Length; i++)
+			{
+				activeToolArms[i].SetActive(false);
+			}
+			activeToolArms[11].SetActive(true);
+		}
+		else if (activeItemID == CubeProperties.itemIDs.woodSword)
+		{
+			for (int i = 0; i<activeToolArms.Length; i++)
+			{
+				activeToolArms[i].SetActive(false);
+			}
+			activeToolArms[12].SetActive(true);
+		}
+		else
+		{
+			for (int i = 0; i<activeToolArms.Length; i++)
+			{
+				activeToolArms[i].SetActive(false);
+			}
+			activeToolArms[0].SetActive(true);
+		}
+		
+	}
 }
