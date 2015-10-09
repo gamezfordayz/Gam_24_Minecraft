@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class World : MonoBehaviour 
 {
+	public bool caves = false;
 	public static World currentWorld;
 	public int chunkLength = 20 , chunkHeight = 140, groundOffset  = 40 ,seed = 0;
 	public float offsetValueX , offsetValueZ , offsetValueY = 0;

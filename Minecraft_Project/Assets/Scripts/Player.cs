@@ -21,7 +21,8 @@ public class Player : MonoBehaviour
 	MoveToActive moveToActive;
 	int indexOfSlot;
 	SlotProperties activeSlot;
-	public CubeProperties.itemIDs acitveItemID;
+	public CubeProperties.itemIDs activeItemID;
+	CubeProperties.itemType activeItemType;
 
 	public AudioClip[] destroyBlockSounds;
 
@@ -88,7 +89,9 @@ public class Player : MonoBehaviour
 	{
 		indexOfSlot = moveToActive.index;
 		activeSlot = InventoryManager.inventoryManager.activeInventorySlots [indexOfSlot];
-		acitveItemID = activeSlot.itemID;
+		activeItemID = activeSlot.itemID;
+		if (activeItemID != 0)
+			activeItemType = CubeProperties.cubeProperties.itemDict [activeItemID].itemType;
 	}
 	
 
@@ -114,8 +117,11 @@ public class Player : MonoBehaviour
 				}
 				else 
 				{
-					hit.point += hit.normal/2;
-					AddCubeToMesh(hit);
+					if(activeItemID != 0 && activeItemType == CubeProperties.itemType.block)
+					{
+						hit.point += hit.normal/2;
+						AddCubeToMesh(hit);
+					}
 				}
 			}
 		}
@@ -138,7 +144,7 @@ public class Player : MonoBehaviour
 			x = Mathf.FloorToInt(hit.point.x - hit.transform.position.x);
 			y = Mathf.FloorToInt(hit.point.y - hit.transform.position.y);
 			z = Mathf.FloorToInt(hit.point.z - hit.transform.position.z);
-			hit.collider.gameObject.GetComponent<ChunkGenerator>().CreateCube(x,y,z , acitveItemID);
+			hit.collider.gameObject.GetComponent<ChunkGenerator>().CreateCube(x,y,z , activeItemID);
 			activeSlot.UpdateNumberOfItem(-1);
 		}
 	}
@@ -155,6 +161,8 @@ public class Player : MonoBehaviour
 				x = Mathf.FloorToInt(hit.point.x - hit.transform.position.x);
 				y = Mathf.FloorToInt(hit.point.y - hit.transform.position.y);
 				z = Mathf.FloorToInt(hit.point.z - hit.transform.position.z);
+				if((CubeProperties.itemIDs)hit.collider.gameObject.GetComponent<ChunkGenerator>().GetCube(x,y,z) == CubeProperties.itemIDs.bedrock)
+					return;
 				AudioSource.PlayClipAtPoint(destroyBlockSounds[Random.Range(0,9)],transform.position, .15f);
 				hit.collider.gameObject.GetComponent<ChunkGenerator>().DestroyCube(x,y,z);
 			}
